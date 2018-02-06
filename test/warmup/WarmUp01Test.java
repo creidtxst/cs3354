@@ -1,4 +1,4 @@
-import warmup.WarmUp01;
+package warmup;
 
 public class WarmUp01Test
 {
@@ -10,16 +10,11 @@ public class WarmUp01Test
     private static void test01()
     {
         WarmUp01 warmUp01 = new WarmUp01();
-        String name = "WarmUp01Test.test01";
+        String name = "warmup.WarmUp01Test.test01";
         String in = "abscacd";
         String expectedOut = "dasaccb";
         String out = warmUp01.run(in);
 
-        runTest(name, in, out, expectedOut);
-    }
-
-    private static void runTest(String name, String in, String expectedOut, String out)
-    {
         try
         {
             TestUtil.runTest(name, in, out, expectedOut);

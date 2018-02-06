@@ -5,18 +5,9 @@ import java.util.List;
 
 public class WarmUp03
 {
-    public int run(int in)
+    public int run(int row_num)
     {
-        List<List<Integer>> rowList = WarmUp03.generateRowList(in);
-
-        int sum = 0;
-        List<Integer> selectedRow = rowList.get(in - 1);
-        for (Integer num : selectedRow)
-        {
-            sum += num;
-        }
-
-        return sum;
+        return computeSum(row_num);
     }
 
     private static List<List<Integer>> generateRowList(int row_num)
@@ -34,5 +25,34 @@ public class WarmUp03
         }
 
         return rowList;
+    }
+
+    private static List<Integer> generateRow(int row_num)
+    {
+        List<Integer> row = new ArrayList<>();
+
+        int start = row_num * (row_num - 1) + 1;
+        int end = row_num * (row_num + 1);
+
+        for (int i = 0; i <= end - start; i++)
+        {
+            row.add(start + i);
+        }
+
+        return row;
+    }
+
+    private static int computeSum(int row_num)
+    {
+        int sum = 0;
+        int start = (row_num * (row_num - 1)) + 1;
+        int end = row_num * (row_num + 1);
+
+        for (int i = 0; i <= end - start; i++)
+        {
+            sum += start + i;
+        }
+
+        return sum;
     }
 }

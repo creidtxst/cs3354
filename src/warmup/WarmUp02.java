@@ -7,6 +7,7 @@ public class WarmUp02
 {
     public int run(String in)
     {
+        // Generate list of substrings, INCLUDING DUPLICATES
         List<String> substringList = StringUtil.generateSubstringList(in);
 
         int out = 0;

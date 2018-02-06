@@ -1,3 +1,5 @@
+package warmup;
+
 public class WarmUpTestSuite
 {
     public static void main(String[] args)
