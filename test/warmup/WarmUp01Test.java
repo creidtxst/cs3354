@@ -1,5 +1,7 @@
 package warmup;
 
+import util.TestUtil;
+
 public class WarmUp01Test
 {
     public static void main(String[] args)
@@ -10,7 +12,7 @@ public class WarmUp01Test
     private static void test01()
     {
         WarmUp01 warmUp01 = new WarmUp01();
-        String name = "warmup.WarmUp01Test.test01";
+        String name = "WarmUp01Test.test01";
         String in = "abscacd";
         String expectedOut = "dasaccb";
         String out = warmUp01.run(in);

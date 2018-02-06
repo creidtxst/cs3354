@@ -5,36 +5,40 @@ import java.util.List;
 
 public class WarmUp03
 {
-    public int run(int row_num)
+    public long run(long row_num)
     {
         return computeSum(row_num);
     }
 
-    private static List<List<Integer>> generateRowList(int row_num)
+    /**
+     * Helper method to generate the entire tree
+     * @param row_num row to generate up to
+     * @return the entire tree
+     */
+    private static List<List<Long>> generateRowList(long row_num)
     {
-        List<List<Integer>> rowList = new ArrayList<>();
-        int k = 1;
-        for (int i = 1; i <= row_num; i++)
+        List<List<Long>> rowList = new ArrayList<>();
+        for (long i = 1; i <= row_num; i++)
         {
-            List<Integer> row = new ArrayList<>();
-            for (int j = 1; j <= i * 2; j++)
-            {
-                row.add(k++);
-            }
-            rowList.add(row);
+            rowList.add(WarmUp03.generateRow(row_num));
         }
 
         return rowList;
     }
 
-    private static List<Integer> generateRow(int row_num)
+    /**
+     * Helper method to generate a single row given a row num
+     * @param row_num the row to generate
+     * @return the row
+     */
+    private static List<Long> generateRow(long row_num)
     {
-        List<Integer> row = new ArrayList<>();
+        List<Long> row = new ArrayList<>();
 
-        int start = row_num * (row_num - 1) + 1;
-        int end = row_num * (row_num + 1);
+        long start = WarmUp03.computeStart(row_num);
+        long end = WarmUp03.computeEnd(row_num);
 
-        for (int i = 0; i <= end - start; i++)
+        for (long i = 0; i <= end - start; i++)
         {
             row.add(start + i);
         }
@@ -42,17 +46,42 @@ public class WarmUp03
         return row;
     }
 
-    private static int computeSum(int row_num)
+    /**
+     * Compute the sum of a row, given a row number
+     * @param row_num the row to compute
+     * @return the sum of the row
+     */
+    private static long computeSum(long row_num)
     {
-        int sum = 0;
-        int start = (row_num * (row_num - 1)) + 1;
-        int end = row_num * (row_num + 1);
+        long start = WarmUp03.computeStart(row_num);
+        long end = WarmUp03.computeEnd(row_num);
 
-        for (int i = 0; i <= end - start; i++)
+        long sum = 0;
+        for (long i = 0; i <= end - start; i++)
         {
             sum += start + i;
         }
 
         return sum;
+    }
+
+    /**
+     * The value of the 0th index in the row, given a row number
+     * @param row_num the row to compute the start index of
+     * @return the value of the 0th index of the row
+     */
+    private static long computeStart(long row_num)
+    {
+        return (row_num * (row_num - 1)) + 1;
+    }
+
+    /**
+     * The value of the end index in the row, given a row number
+     * @param row_num the row to compute the end index of
+     * @return the value of the end index of the row
+     */
+    private static long computeEnd(long row_num)
+    {
+        return row_num * (row_num + 1);
     }
 }

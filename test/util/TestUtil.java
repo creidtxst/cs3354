@@ -1,4 +1,4 @@
-package warmup;
+package util;
 
 public class TestUtil
 {
@@ -6,7 +6,7 @@ public class TestUtil
     {
         if (!out.equals(expectedOut))
         {
-            throw new Exception(name + " FAILED\n");
+            throw new Exception(name + " FAILED - expected: " + expectedOut + " actual: " + out + "\n");
         }
         System.out.print(name + "\n");
         System.out.print("---------------------\n");
