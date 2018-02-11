@@ -1,3 +1,10 @@
+/**
+ * Connor Reid
+ * CS 3354
+ * Section 260
+ * Spring 2018
+ * Roychowdhury
+ */
 package warmup;
 
 import util.StringUtil;
@@ -23,10 +30,11 @@ public class WarmUp02
 
     /**
      * Generate a list of substrings from a given string, INCLUDING DUPLICATES
+     *
      * @param s string to generate substrings from
      * @return List (including duplicates) of substrings
      */
-    public static List<String> generateSubstringList(String s)
+    private static List<String> generateSubstringList(String s)
     {
         List<String> substringList = new ArrayList<>();
         int inputStringLength = s.length();
@@ -42,10 +50,11 @@ public class WarmUp02
 
     /**
      * Traverse a binary string in reverse order and compute the value in decimal
+     *
      * @param s the binary string to convert
      * @return the decimal value of the binary string
      */
-    public static int convertBinaryStringToDecimal(String s)
+    private static int convertBinaryStringToDecimal(String s)
     {
         int decimalValue = 0;
         String rs = StringUtil.reverseString(s);

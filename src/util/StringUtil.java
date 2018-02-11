@@ -1,3 +1,10 @@
+/**
+ * Connor Reid
+ * CS 3354
+ * Section 260
+ * Spring 2018
+ * Roychowdhury
+ */
 package util;
 
 public class StringUtil
