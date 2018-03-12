@@ -16,6 +16,7 @@ package assignmentA;
  * https://www.geeksforgeeks.org/searching-for-patterns-set-2-kmp-algorithm/
  * https://www.geeksforgeeks.org/searching-for-patterns-set-3-rabin-karp-algorithm/
  * https://www.sanfoundry.com/java-program-boyer-moore-algorithm/
+ * https://www.geeksforgeeks.org/searching-for-character-and-substring-in-a-string/
  *
  * Info about Prime Numbers (applicable to Rabin-Karp algorithm):
  *

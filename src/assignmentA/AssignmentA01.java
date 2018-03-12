@@ -34,6 +34,8 @@ package assignmentA;
  * • http://www.purplemath.com/modules/quadform3.htm
  * • http://www.purplemath.com/modules/quadform.htm
  * • http://www.purplemath.com/modules/sqrquad2.htm#formula
+ * http://www.math.com/students/calculators/source/quadratic.htm
+ * http://www.mesacc.edu/~scotz47781/mat120/notes/quad_formula/quad_formula_practice.html
  *
  */
 public class AssignmentA01
