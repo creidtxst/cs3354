@@ -9,9 +9,11 @@ public class ArrayIndex
 
     public ArrayIndex()
     {
-        originalIndex = 0;
+        originalIndex = -1;
         value = -1;
     }
+
+
 
     public ArrayIndex(int originalIndex, int value)
     {
