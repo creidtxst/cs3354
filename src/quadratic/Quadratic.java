@@ -52,10 +52,11 @@ public class Quadratic
         this.c = c;
     }
 
-    ComplexNumberPair solve()
+    public ComplexNumberPair solve()
     {
         double realRoot;
         double imaginaryRoot;
+        boolean isSpecialCase = false;
 
         // Value underneath the square root
         double discriminant = Math.pow(b, 2) - (4 * a * c);
@@ -66,21 +67,33 @@ public class Quadratic
             realRoot = -b / (2 * a);
             imaginaryRoot = 0;
         }
-        // Case 2: discriminant is negative
+        // Case 2: discriminant is positive
         else if (discriminant > 0)
         {
             realRoot = -b / (2 * a);
             imaginaryRoot = Math.sqrt(discriminant) / (2 * a);
         }
-        // Case 3: discriminant is positive
+        // Case 3: discriminant is negative
         else
         {
-            realRoot = 0;
-            imaginaryRoot = 0;
+            isSpecialCase = true;
+            realRoot = -b / (2 * a);
+            imaginaryRoot = -discriminant;
         }
 
-        ComplexNumber complexNumber1 = new ComplexNumber(realRoot, imaginaryRoot);
-        ComplexNumber complexNumber2 = new ComplexNumber(realRoot, -imaginaryRoot);
+        ComplexNumber complexNumber1;
+        ComplexNumber complexNumber2;
+
+        if (isSpecialCase)
+        {
+            complexNumber1 = new ComplexNumber(realRoot, imaginaryRoot, isSpecialCase, (2 * a));
+            complexNumber2 = new ComplexNumber(realRoot, -imaginaryRoot, isSpecialCase, (2 * a));
+        }
+        else
+        {
+            complexNumber1 = new ComplexNumber(realRoot, imaginaryRoot);
+            complexNumber2 = new ComplexNumber(realRoot, -imaginaryRoot);
+        }
 
         ComplexNumberPair complexNumberPair = new ComplexNumberPair(complexNumber1, complexNumber2);
 

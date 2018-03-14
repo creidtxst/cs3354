@@ -6,6 +6,8 @@ public class ComplexNumber
 {
     private double real;
     private double imaginary;
+    private boolean isSpecialCase;  // negative discriminant
+    private double specialCaseDenominator;
 
     public ComplexNumber()
     {
@@ -17,6 +19,15 @@ public class ComplexNumber
     {
         this.real = real;
         this.imaginary = imaginary;
+        this.isSpecialCase = false;
+    }
+
+    public ComplexNumber(double real, double imaginary, boolean isSpecialCase, double specialCaseDenominator)
+    {
+        this.real = real;
+        this.imaginary = imaginary;
+        this.isSpecialCase = isSpecialCase;
+        this.specialCaseDenominator = specialCaseDenominator;
     }
 
     public double getReal()
@@ -44,6 +55,26 @@ public class ComplexNumber
         return imaginary == 0;
     }
 
+    public boolean isSpecialCase()
+    {
+        return isSpecialCase;
+    }
+
+    public void setSpecialCase(boolean specialCase)
+    {
+        isSpecialCase = specialCase;
+    }
+
+    public double getSpecialCaseDenominator()
+    {
+        return specialCaseDenominator;
+    }
+
+    public void setSpecialCaseDenominator(double specialCaseDenominator)
+    {
+        this.specialCaseDenominator = specialCaseDenominator;
+    }
+
     @Override
     public boolean equals(Object o)
     {
@@ -65,28 +96,56 @@ public class ComplexNumber
     {
         if (imaginary == 0)
         {
-            return real + " + " + "0.0i";
+            return real + " + " + "0.0";
         }
 
         if (real == 0)
         {
             if (imaginary < 0)
             {
-                return "0.0" + " - " + (-imaginary) + "i";
+                if (isSpecialCase)
+                {
+                    return "0.0" + " - i sqrt(" + (imaginary) + ") / " + specialCaseDenominator;
+                }
+                else
+                {
+                    return "0.0" + " - " + (-imaginary);
+                }
             }
             else
             {
-                return "0.0" + " + " + imaginary + "i";
+                if (isSpecialCase)
+                {
+                    return "0.0" + " + i sqrt(" + -imaginary + ") / " + specialCaseDenominator;
+                }
+                else
+                {
+                    return "0.0" + " + " + imaginary;
+                }
             }
         }
 
         if (imaginary < 0)
         {
-            return real + " - " + (-imaginary) + "i";
+            if (isSpecialCase)
+            {
+                return real + " - i sqrt(" + (imaginary) + ") / " + specialCaseDenominator;
+            }
+            else
+            {
+                return real + " - " + (-imaginary);
+            }
         }
         else
         {
-            return real + " + " + imaginary + "i";
+            if (isSpecialCase)
+            {
+                return real + " + i sqrt(" + -imaginary + ") / " + specialCaseDenominator;
+            }
+            else
+            {
+                return real + " + " + imaginary;
+            }
         }
     }
 }

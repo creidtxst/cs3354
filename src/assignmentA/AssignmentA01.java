@@ -1,5 +1,7 @@
 package assignmentA;
 
+import quadratic.ComplexNumberPair;
+import quadratic.Quadratic;
 /**
  * Abstract:
  *
@@ -26,23 +28,24 @@ package assignmentA;
  *
  * Challenges encountered during development:
  *
- * • Review quadratic formula
+ * Review quadratic formula
  *
  * References:
  *
- * • https://mathbitsnotebook.com/Algebra1/Quadratics/QDcomplex.html
- * • http://www.purplemath.com/modules/quadform3.htm
- * • http://www.purplemath.com/modules/quadform.htm
- * • http://www.purplemath.com/modules/sqrquad2.htm#formula
+ * https://mathbitsnotebook.com/Algebra1/Quadratics/QDcomplex.html
+ * http://www.purplemath.com/modules/quadform3.htm
+ * http://www.purplemath.com/modules/quadform.htm
+ * http://www.purplemath.com/modules/sqrquad2.htm#formula
  * http://www.math.com/students/calculators/source/quadratic.htm
  * http://www.mesacc.edu/~scotz47781/mat120/notes/quad_formula/quad_formula_practice.html
  *
  */
 public class AssignmentA01
 {
-    public String run(String in)
+    public ComplexNumberPair run(double a, double b, double c)
     {
-        return "";
+        Quadratic quadratic = new Quadratic(a, b, c);
+        return quadratic.solve();
     }
 }
 
