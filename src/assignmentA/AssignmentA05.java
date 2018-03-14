@@ -9,13 +9,10 @@ import list.LinkedList;
  */
 public class AssignmentA05
 {
-    public void run(int[] inputArray)
+    public LinkedList run(int[] inputArray)
     {
         LinkedList list = new LinkedList(inputArray);
-        System.out.println("Input");
-        list.printList();
         list.reverse();
-        System.out.println("\nOutput");
-        list.printList();
+        return list;
     }
 }
