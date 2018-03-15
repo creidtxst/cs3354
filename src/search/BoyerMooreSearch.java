@@ -4,12 +4,36 @@ public class BoyerMooreSearch
 {
     private static final int ALPHABET_SIZE = 256;
 
+    public int findNumOccurrencesOfPattern(String text, String pattern)
+    {
+        text = text.toLowerCase();
+        pattern = pattern.toLowerCase();
+        int count = 0;
+        int index = 0;
+        int tempIndex;
+
+        do
+        {
+            tempIndex = index;
+            index = findPattern(text, pattern);
+            text = text.substring(index + pattern.length(), text.length());
+
+            if (index > 0 && index != tempIndex)
+            {
+                count++;
+            }
+        } while (index != tempIndex);
+
+        return count;
+    }
+
     /**
      * Find pattern in text
+     *
      * @param text
      * @param pattern
      */
-    public void findPattern(String text, String pattern)
+    public int findPattern(String text, String pattern)
     {
         char[] textCharArray = text.toCharArray();
         char[] patternCharArray = pattern.toCharArray();
@@ -17,17 +41,20 @@ public class BoyerMooreSearch
 
         if (position == -1)
         {
-            System.out.println("\nNo Match\n");
+//            System.out.println("\nNo Match\n");
         }
 
         else
         {
-            System.out.println("Pattern found at position : " + position);
+//            System.out.println("Pattern found at position : " + position);
         }
+
+        return position;
     }
 
     /**
      * Calculate index of pattern substring
+     *
      * @param textCharArray
      * @param patternCharArray
      * @return
@@ -61,6 +88,7 @@ public class BoyerMooreSearch
 
     /**
      * Makes the jump table based on the mismatched character information
+     *
      * @param pattern
      * @return
      */
@@ -83,6 +111,7 @@ public class BoyerMooreSearch
 
     /**
      * Makes the jump table based on the scan offset which mismatch occurs.
+     *
      * @param pattern
      * @return
      */
@@ -112,6 +141,7 @@ public class BoyerMooreSearch
 
     /**
      * Check if needle[p:end] a prefix of pattern
+     *
      * @param pattern
      * @param p
      * @return
@@ -131,6 +161,7 @@ public class BoyerMooreSearch
 
     /**
      * Returns the maximum length of the substring ends at p and is a suffix
+     *
      * @param pattern
      * @param p
      * @return
@@ -145,13 +176,5 @@ public class BoyerMooreSearch
         }
 
         return suffixLength;
-    }
-
-    public static void main(String[] args)
-    {
-        String text = "";
-        String pattern = "";
-        BoyerMooreSearch boyerMooreSearch = new BoyerMooreSearch();
-        boyerMooreSearch.findPattern(text, pattern);
     }
 }
