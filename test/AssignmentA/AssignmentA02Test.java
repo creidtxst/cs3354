@@ -1,8 +1,6 @@
 package AssignmentA;
 
 import assignmentA.AssignmentA02;
-import util.TestUtil;
-import java.util.concurrent.TimeUnit;
 
 public class AssignmentA02Test
 {
@@ -33,22 +31,11 @@ public class AssignmentA02Test
 
         // Dry run before beginning timing
         assignment02.runBoyerMoore(needle, haystack);
+        assignment02.runKnuthMorrisPratt(needle, haystack);
+        assignment02.runRabinKarp(needle, haystack);
+        assignment02.runNaiveSearch(needle, haystack);
 
-        long start01 = System.nanoTime();
-        int output = assignment02.runBoyerMoore(needle, haystack);
-        long end01 = System.nanoTime();
-        long diff01 = end01 - start01;
-
-        try
-        {
-            runTest(name, "needle: " + needle + "\nhaystack: " + haystack, output, expectedOutput, true);
-        }
-        catch (Exception exc)
-        {
-            System.out.print("\n\n" + exc);
-        }
-
-        System.out.print("Boyer-Moore Search: " + diff01 + "\n\n");
+        runTest(assignment02, expectedOutput, name, needle, haystack);
     }
 
     private static void test02()
@@ -58,21 +45,8 @@ public class AssignmentA02Test
         String needle = "San Francisco";
         String haystack = haystack01;
         int expectedOutput = 2;
-        long start01 = System.nanoTime();
-        int output = assignment02.runBoyerMoore(needle, haystack);
-        long end01 = System.nanoTime();
-        long diff01 = end01 - start01;
 
-        try
-        {
-            runTest(name, "needle: " + needle + "\nhaystack: " + haystack, output, expectedOutput, true);
-        }
-        catch (Exception exc)
-        {
-            System.out.print("\n\n" + exc);
-        }
-
-        System.out.print("Boyer-Moore Search: " + diff01 + "\n\n");
+        runTest(assignment02, expectedOutput, name, needle, haystack);
     }
 
     private static void test03()
@@ -82,21 +56,8 @@ public class AssignmentA02Test
         String needle = "night";
         String haystack = haystack02;
         int expectedOutput = 4;
-        long start01 = System.nanoTime();
-        int output = assignment02.runBoyerMoore(needle, haystack);
-        long end01 = System.nanoTime();
-        long diff01 = end01 - start01;
 
-        try
-        {
-            runTest(name, "needle: " + needle + "\nhaystack: " + haystack, output, expectedOutput, true);
-        }
-        catch (Exception exc)
-        {
-            System.out.print("\n\n" + exc);
-        }
-
-        System.out.print("Boyer-Moore Search: " + diff01 + "\n\n");
+        runTest(assignment02, expectedOutput, name, needle, haystack);
     }
 
     private static void test04()
@@ -106,21 +67,8 @@ public class AssignmentA02Test
         String needle = "young";
         String haystack = haystack02;
         int expectedOutput = 3;
-        long start01 = System.nanoTime();
-        int output = assignment02.runBoyerMoore(needle, haystack);
-        long end01 = System.nanoTime();
-        long diff01 = end01 - start01;
 
-        try
-        {
-            runTest(name, "needle: " + needle + "\nhaystack: " + haystack, output, expectedOutput, true);
-        }
-        catch (Exception exc)
-        {
-            System.out.print("\n\n" + exc);
-        }
-
-        System.out.print("Boyer-Moore Search: " + diff01 + "\n\n");
+        runTest(assignment02, expectedOutput, name, needle, haystack);
     }
 
     private static void test05()
@@ -130,21 +78,8 @@ public class AssignmentA02Test
         String needle = "Winston";
         String haystack = haystack03;
         int expectedOutput = 9;
-        long start01 = System.nanoTime();
-        int output = assignment02.runBoyerMoore(needle, haystack);
-        long end01 = System.nanoTime();
-        long diff01 = end01 - start01;
 
-        try
-        {
-            runTest(name, "needle: " + needle + "\nhaystack: " + haystack, output, expectedOutput, true);
-        }
-        catch (Exception exc)
-        {
-            System.out.print("\n\n" + exc);
-        }
-
-        System.out.print("Boyer-Moore Search: " + diff01 + "\n\n");
+        runTest(assignment02, expectedOutput, name, needle, haystack);
     }
 
     private static void test06()
@@ -154,21 +89,8 @@ public class AssignmentA02Test
         String needle = "telescreen";
         String haystack = haystack03;
         int expectedOutput = 4;
-        long start01 = System.nanoTime();
-        int output = assignment02.runBoyerMoore(needle, haystack);
-        long end01 = System.nanoTime();
-        long diff01 = end01 - start01;
 
-        try
-        {
-            runTest(name, "needle: " + needle + "\nhaystack: " + haystack, output, expectedOutput, true);
-        }
-        catch (Exception exc)
-        {
-            System.out.print("\n\n" + exc);
-        }
-
-        System.out.print("Boyer-Moore Search: " + diff01 + "\n\n");
+        runTest(assignment02, expectedOutput, name, needle, haystack);
     }
 
     private static void test07()
@@ -178,24 +100,11 @@ public class AssignmentA02Test
         String needle = "police";
         String haystack = haystack03;
         int expectedOutput = 3;
-        long start01 = System.nanoTime();
-        int output = assignment02.runBoyerMoore(needle, haystack);
-        long end01 = System.nanoTime();
-        long diff01 = end01 - start01;
 
-        try
-        {
-            runTest(name, "needle: " + needle + "\nhaystack: " + haystack, output, expectedOutput, true);
-        }
-        catch (Exception exc)
-        {
-            System.out.print("\n\n" + exc);
-        }
-
-        System.out.print("Boyer-Moore Search: " + diff01 + "\n\n");
+        runTest(assignment02, expectedOutput, name, needle, haystack);
     }
 
-    private static void runTest(String name, String in, int out, int expectedOut, boolean printOutput) throws Exception
+    private static void validate(String name, String in, int out, int expectedOut, boolean printOutput) throws Exception
     {
         if (out != expectedOut)
         {
@@ -209,5 +118,69 @@ public class AssignmentA02Test
             System.out.print("\nout: " + out);
             System.out.print("\n---------------------\n");
         }
+    }
+
+    private static void runTest(AssignmentA02 assignment02, int expectedOutput, String name, String needle, String haystack)
+    {
+        long start = System.nanoTime();
+        int output = assignment02.runBoyerMoore(needle, haystack);
+        long end = System.nanoTime();
+        long diff01 = end - start;
+
+        try
+        {
+            validate(name, "needle: " + needle + "\nhaystack: " + haystack, output, expectedOutput, true);
+        }
+        catch (Exception exc)
+        {
+            System.out.print("\n\n" + exc);
+        }
+
+        start = System.nanoTime();
+        output = assignment02.runKnuthMorrisPratt(needle, haystack);
+        end = System.nanoTime();
+        long diff02 = end - start;
+
+        try
+        {
+            validate(name, "needle: " + needle + "\nhaystack: " + haystack, output, expectedOutput, false);
+        }
+        catch (Exception exc)
+        {
+            System.out.print("\n\n" + exc);
+        }
+
+        start = System.nanoTime();
+        output = assignment02.runRabinKarp(needle, haystack);
+        end = System.nanoTime();
+        long diff03 = end - start;
+
+        try
+        {
+            validate(name, "needle: " + needle + "\nhaystack: " + haystack, output, expectedOutput, false);
+        }
+        catch (Exception exc)
+        {
+            System.out.print("\n\n" + exc);
+        }
+
+        start = System.nanoTime();
+        output = assignment02.runNaiveSearch(needle, haystack);
+        end = System.nanoTime();
+        long diff04 = end - start;
+
+        try
+        {
+            validate(name, "needle: " + needle + "\nhaystack: " + haystack, output, expectedOutput, false);
+        }
+        catch (Exception exc)
+        {
+            System.out.print("\n\n" + exc);
+        }
+
+        System.out.print("Boyer-Moore Search (in nanoseconds):        " + diff01 + "\n");
+        System.out.print("Knuth-Morris-Pratt Search (in nanoseconds): " + diff02 + "\n");
+        System.out.print("Rabin-Karp Search (in nanoseconds):         " + diff03 + "\n");
+        System.out.print("Naive Search (in nanoseconds):              " + diff02 + "\n\n");
     }
 }

@@ -22,6 +22,8 @@ public class Matrix
     {
         numColumns = inputArray[0];
         numRows = inputArray[1];
+
+        // todo create random matrix
     }
 
     public Matrix(int numColumns, int numRows)
@@ -74,4 +76,8 @@ public class Matrix
                 ", numRows=" + numRows +
                 '}';
     }
+
+    // todo implement add
+
+    // todo implement multiply
 }

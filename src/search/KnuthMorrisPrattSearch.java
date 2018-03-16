@@ -2,6 +2,29 @@ package search;
 
 public class KnuthMorrisPrattSearch
 {
+    public int findNumOccurrencesOfPattern(String text, String pattern)
+    {
+        text = text.toLowerCase();
+        pattern = pattern.toLowerCase();
+        int count = 0;
+        int index = 0;
+        int tempIndex;
+
+        do
+        {
+            tempIndex = index;
+            index = search(text, pattern);
+            text = text.substring(index + pattern.length(), text.length());
+
+            if (index > 0 && index != tempIndex)
+            {
+                count++;
+            }
+        } while (index != tempIndex);
+
+        return count;
+    }
+
     int search(String text, String pattern)
     {
         int[] longestProperSuffixArray = computeLongestProperSuffixArray(pattern);

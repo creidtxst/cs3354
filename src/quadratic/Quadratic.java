@@ -64,6 +64,7 @@ public class Quadratic
         // Case 1: discriminant is equal to zero
         if (discriminant == 0)
         {
+            // todo handle divide by zero
             realRoot = -b / (2 * a);
             imaginaryRoot = 0;
         }
@@ -71,6 +72,7 @@ public class Quadratic
         else if (discriminant > 0)
         {
             realRoot = -b / (2 * a);
+            // todo handle square root of negative number
             imaginaryRoot = Math.sqrt(discriminant) / (2 * a);
         }
         // Case 3: discriminant is negative

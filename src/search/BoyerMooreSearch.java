@@ -15,7 +15,7 @@ public class BoyerMooreSearch
         do
         {
             tempIndex = index;
-            index = findPattern(text, pattern);
+            index = search(text, pattern);
             text = text.substring(index + pattern.length(), text.length());
 
             if (index > 0 && index != tempIndex)
@@ -33,7 +33,7 @@ public class BoyerMooreSearch
      * @param text
      * @param pattern
      */
-    public int findPattern(String text, String pattern)
+    public int search(String text, String pattern)
     {
         char[] textCharArray = text.toCharArray();
         char[] patternCharArray = pattern.toCharArray();

@@ -1,6 +1,10 @@
 package assignmentA;
 
 import search.BoyerMooreSearch;
+import search.KnuthMorrisPrattSearch;
+import search.NaiveSearch;
+import search.RabinKarpSearch;
+
 /**
  * Requirements:
  * <p>
@@ -18,6 +22,7 @@ import search.BoyerMooreSearch;
  * https://www.geeksforgeeks.org/searching-for-patterns-set-3-rabin-karp-algorithm/
  * https://www.sanfoundry.com/java-program-boyer-moore-algorithm/
  * https://www.geeksforgeeks.org/searching-for-character-and-substring-in-a-string/
+ * https://www.sanfoundry.com/java-program-perform-naive-string-matching/
  * <p>
  * Info about Prime Numbers (applicable to Rabin-Karp algorithm):
  * <p>
@@ -33,6 +38,27 @@ public class AssignmentA02
     {
         BoyerMooreSearch boyerMooreSearch = new BoyerMooreSearch();
         int c = boyerMooreSearch.findNumOccurrencesOfPattern(haystack, needle);
+        return c;
+    }
+
+    public int runKnuthMorrisPratt(String needle, String haystack)
+    {
+        KnuthMorrisPrattSearch knuthMorrisPrattSearch = new KnuthMorrisPrattSearch();
+        int c = knuthMorrisPrattSearch.findNumOccurrencesOfPattern(haystack, needle);
+        return c;
+    }
+
+    public int runRabinKarp(String needle, String haystack)
+    {
+        RabinKarpSearch rabinKarpSearch = new RabinKarpSearch();
+        int c = rabinKarpSearch.findNumOccurrencesOfPattern(haystack, needle);
+        return c;
+    }
+
+    public int runNaiveSearch(String needle, String haystack)
+    {
+        NaiveSearch naiveSearch = new NaiveSearch();
+        int c = naiveSearch.findNumOccurrencesOfPattern(haystack, needle);
         return c;
     }
 }

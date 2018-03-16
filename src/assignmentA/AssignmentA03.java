@@ -16,6 +16,8 @@ public class AssignmentA03
     public void run(String fileName)
     {
         generateRandomMatrixFromFileInput(fileName);
+        // todo generate another matrix
+        // todo do an add of both
     }
 
     public Matrix generateRandomMatrixFromFileInput(String fileName)
