@@ -4,15 +4,6 @@ import matrix.Matrix;
 import util.FileUtil;
 import java.util.List;
 
-/**
- * References:
- * <p>
- * matrix addition: http://www.purplemath.com/modules/mtrxadd.htm
- * matrix multiplication: https://www.mathsisfun.com/algebra/matrix-multiplying.html
- * https://introcs.cs.princeton.edu/java/95linear/Matrix.java.html
- * https://www.wyzant.com/resources/lessons/math/precalculus/matrices/matrix_addition_and_subtraction
- */
-
 public class AssignmentA03
 {
     public static Matrix generateRandomMatrixFromFileInput(String fileName)

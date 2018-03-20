@@ -181,6 +181,6 @@ public class AssignmentA02Test
         System.out.print("Boyer-Moore Search (in nanoseconds):        " + diff01 + "\n");
         System.out.print("Knuth-Morris-Pratt Search (in nanoseconds): " + diff02 + "\n");
         System.out.print("Rabin-Karp Search (in nanoseconds):         " + diff03 + "\n");
-        System.out.print("Naive Search (in nanoseconds):              " + diff02 + "\n\n");
+        System.out.print("Naive Search (in nanoseconds):              " + diff04 + "\n\n");
     }
 }

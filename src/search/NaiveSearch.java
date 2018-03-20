@@ -2,7 +2,7 @@ package search;
 
 public class NaiveSearch
 {
-    private static final int BASE = 256;
+    private static final int ALPHABET_SIZE = 256;
 
     public int findNumOccurrencesOfPattern(String text, String pattern)
     {
@@ -29,9 +29,9 @@ public class NaiveSearch
 
     public int search(String text, String pattern)
     {
-        int[] occurrence = new int[BASE];
+        int[] occurrence = new int[ALPHABET_SIZE];
 
-        for (int c = 0; c < BASE; c++)
+        for (int c = 0; c < ALPHABET_SIZE; c++)
         {
             occurrence[c] = -1;
         }

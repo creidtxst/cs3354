@@ -4,6 +4,9 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Matrix
 {
+    private static int LOWER_BOUND = 0;
+    private static int UPPER_BOUND = 99;
+
     private int numRows;
     private int numColumns;
     private int[][] data;
@@ -91,21 +94,6 @@ public class Matrix
         return s.toString();
     }
 
-    public String dataToString()
-    {
-        StringBuilder s = new StringBuilder();
-        s.append("\n");
-        for (int i = 0; i < numRows; i++)
-        {
-            for (int j = 0; j < numColumns; j++)
-            {
-                s.append(String.format("%d ", data[i][j]));
-            }
-            s.append("\n");
-        }
-        return s.toString();
-    }
-
     public static boolean compare(Matrix a, Matrix b)
     {
         for (int i = 0; i < a.numRows; i++)
@@ -129,7 +117,7 @@ public class Matrix
         {
             for (int j = 0; j < numColumns; j++)
             {
-                data[i][j] = ThreadLocalRandom.current().nextInt(0, 100);
+                data[i][j] = ThreadLocalRandom.current().nextInt(LOWER_BOUND, UPPER_BOUND + 1);
             }
         }
         return data;
