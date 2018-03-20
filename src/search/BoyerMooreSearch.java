@@ -4,7 +4,7 @@ public class BoyerMooreSearch
 {
     private static final int ALPHABET_SIZE = 256;
 
-    public int findNumOccurrencesOfPattern(String text, String pattern)
+    public static int findNumOccurrencesOfPattern(String text, String pattern)
     {
         text = text.toLowerCase();
         pattern = pattern.toLowerCase();
@@ -33,7 +33,7 @@ public class BoyerMooreSearch
      * @param text
      * @param pattern
      */
-    public int search(String text, String pattern)
+    public static int search(String text, String pattern)
     {
         char[] textCharArray = text.toCharArray();
         char[] patternCharArray = pattern.toCharArray();
@@ -59,7 +59,7 @@ public class BoyerMooreSearch
      * @param patternCharArray
      * @return
      */
-    public int indexOf(char[] textCharArray, char[] patternCharArray)
+    public static int indexOf(char[] textCharArray, char[] patternCharArray)
     {
         if (patternCharArray.length == 0)
         {
@@ -92,7 +92,7 @@ public class BoyerMooreSearch
      * @param pattern
      * @return
      */
-    private int[] makeCharTable(char[] pattern)
+    private static int[] makeCharTable(char[] pattern)
     {
         int[] charTable = new int[ALPHABET_SIZE];
 

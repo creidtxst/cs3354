@@ -14,7 +14,6 @@ public class AssignmentA01Test
 
     private static void test01()
     {
-        AssignmentA01 assignment01 = new AssignmentA01();
         String name = "AssignmentA01Test.test01";
         double a = 1;
         double b = 6;
@@ -26,12 +25,13 @@ public class AssignmentA01Test
             -3 +- 4.7958315233
          */
 
-        ComplexNumberPair complexNumberPair = assignment01.run(a, b, c);
+        ComplexNumberPair complexNumberPair = AssignmentA01.run(a, b, c);
         System.out.print(complexNumberPair.toString() + "\n");
 
         try
         {
 //            TestUtil.runTest(name, in, out, expectedOut);
+
         }
         catch (Exception exc)
         {
@@ -41,7 +41,6 @@ public class AssignmentA01Test
 
     private static void test02()
     {
-        AssignmentA01 assignment01 = new AssignmentA01();
         String name = "AssignmentA01Test.test02";
         double a = 8;
         double b = 14;
@@ -53,7 +52,7 @@ public class AssignmentA01Test
             -0.875 +- 1.625
          */
 
-        ComplexNumberPair complexNumberPair = assignment01.run(a, b, c);
+        ComplexNumberPair complexNumberPair = AssignmentA01.run(a, b, c);
         System.out.print(complexNumberPair.toString() + "\n");
 
         try
@@ -68,7 +67,6 @@ public class AssignmentA01Test
 
     private static void test03()
     {
-        AssignmentA01 assignment01 = new AssignmentA01();
         String name = "AssignmentA01Test.test03";
         double a = -5;
         double b = 3;
@@ -79,7 +77,7 @@ public class AssignmentA01Test
             (-3/-10) +- (sqrt(-211)/-10)
          */
 
-        ComplexNumberPair complexNumberPair = assignment01.run(a, b, c);
+        ComplexNumberPair complexNumberPair = AssignmentA01.run(a, b, c);
         System.out.print(complexNumberPair.toString() + "\n");
 
         try

@@ -4,7 +4,7 @@ public class RabinKarpSearch
 {
     private static final int ALPHABET_SIZE = 256;
 
-    public int findNumOccurrencesOfPattern(String text, String pattern)
+    public static int findNumOccurrencesOfPattern(String text, String pattern)
     {
         text = text.toLowerCase();
         pattern = pattern.toLowerCase();
@@ -27,7 +27,7 @@ public class RabinKarpSearch
         return count;
     }
 
-    int search(String pattern, String text, int primeNumber)
+    public static int search(String pattern, String text, int primeNumber)
     {
         int M = pattern.length();
         int N = text.length();

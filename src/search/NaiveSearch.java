@@ -4,7 +4,7 @@ public class NaiveSearch
 {
     private static final int ALPHABET_SIZE = 256;
 
-    public int findNumOccurrencesOfPattern(String text, String pattern)
+    public static int findNumOccurrencesOfPattern(String text, String pattern)
     {
         text = text.toLowerCase();
         pattern = pattern.toLowerCase();
@@ -27,7 +27,7 @@ public class NaiveSearch
         return count;
     }
 
-    public int search(String text, String pattern)
+    public static int search(String text, String pattern)
     {
         int[] occurrence = new int[ALPHABET_SIZE];
 

@@ -7,31 +7,23 @@ import search.RabinKarpSearch;
 
 public class AssignmentA02
 {
-    public int runBoyerMoore(String needle, String haystack)
+    public static int runBoyerMoore(String needle, String haystack)
     {
-        BoyerMooreSearch boyerMooreSearch = new BoyerMooreSearch();
-        int c = boyerMooreSearch.findNumOccurrencesOfPattern(haystack, needle);
-        return c;
+        return BoyerMooreSearch.findNumOccurrencesOfPattern(haystack, needle);
     }
 
-    public int runKnuthMorrisPratt(String needle, String haystack)
+    public static int runKnuthMorrisPratt(String needle, String haystack)
     {
-        KnuthMorrisPrattSearch knuthMorrisPrattSearch = new KnuthMorrisPrattSearch();
-        int c = knuthMorrisPrattSearch.findNumOccurrencesOfPattern(haystack, needle);
-        return c;
+        return KnuthMorrisPrattSearch.findNumOccurrencesOfPattern(haystack, needle);
     }
 
-    public int runRabinKarp(String needle, String haystack)
+    public static int runRabinKarp(String needle, String haystack)
     {
-        RabinKarpSearch rabinKarpSearch = new RabinKarpSearch();
-        int c = rabinKarpSearch.findNumOccurrencesOfPattern(haystack, needle);
-        return c;
+        return RabinKarpSearch.findNumOccurrencesOfPattern(haystack, needle);
     }
 
-    public int runNaiveSearch(String needle, String haystack)
+    public static int runNaiveSearch(String needle, String haystack)
     {
-        NaiveSearch naiveSearch = new NaiveSearch();
-        int c = naiveSearch.findNumOccurrencesOfPattern(haystack, needle);
-        return c;
+        return NaiveSearch.findNumOccurrencesOfPattern(haystack, needle);
     }
 }

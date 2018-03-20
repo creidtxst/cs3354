@@ -2,7 +2,7 @@ package search;
 
 public class KnuthMorrisPrattSearch
 {
-    public int findNumOccurrencesOfPattern(String text, String pattern)
+    public static int findNumOccurrencesOfPattern(String text, String pattern)
     {
         text = text.toLowerCase();
         pattern = pattern.toLowerCase();
@@ -25,7 +25,7 @@ public class KnuthMorrisPrattSearch
         return count;
     }
 
-    int search(String text, String pattern)
+    public static int search(String text, String pattern)
     {
         int[] longestProperSuffixArray = computeLongestProperSuffixArray(pattern);
 
@@ -51,7 +51,7 @@ public class KnuthMorrisPrattSearch
         return -1;  // Not found
     }
 
-    int[] computeLongestProperSuffixArray(String pattern)
+    private static int[] computeLongestProperSuffixArray(String pattern)
     {
         int[] longestProperSuffixArray = new int[pattern.length()];
         longestProperSuffixArray[0] = 0;  // Base case
