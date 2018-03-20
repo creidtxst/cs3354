@@ -9,18 +9,13 @@ import java.util.List;
  * <p>
  * matrix addition: http://www.purplemath.com/modules/mtrxadd.htm
  * matrix multiplication: https://www.mathsisfun.com/algebra/matrix-multiplying.html
+ * https://introcs.cs.princeton.edu/java/95linear/Matrix.java.html
+ * https://www.wyzant.com/resources/lessons/math/precalculus/matrices/matrix_addition_and_subtraction
  */
 
 public class AssignmentA03
 {
-    public void run(String fileName)
-    {
-        generateRandomMatrixFromFileInput(fileName);
-        // todo generate another matrix
-        // todo do an add of both
-    }
-
-    public Matrix generateRandomMatrixFromFileInput(String fileName)
+    public static Matrix generateRandomMatrixFromFileInput(String fileName)
     {
         List<String> stringList = FileUtil.readFile(fileName);
 

@@ -1,16 +1,18 @@
 package matrix;
 
-import java.util.Objects;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Matrix
 {
-    private int numColumns;
     private int numRows;
+    private int numColumns;
+    private int[][] data;
 
     public Matrix()
     {
-        numColumns = 0;
         numRows = 0;
+        numColumns = 0;
+        data = generateRandomData(numRows, numRows);
     }
 
     /**
@@ -20,15 +22,46 @@ public class Matrix
      */
     public Matrix(int[] inputArray)
     {
-        numColumns = inputArray[0];
         numRows = inputArray[1];
-
-        // todo create random matrix
+        numColumns = inputArray[0];
+        data = generateRandomData(numRows, numRows);
     }
 
-    public Matrix(int numColumns, int numRows)
+    public Matrix(int numRows, int numColumns)
     {
+        this.numRows = numRows;
         this.numColumns = numColumns;
+        data = generateRandomData(numRows, numColumns);
+    }
+
+    public Matrix(int numRows, int numColumns, boolean generateRandom)
+    {
+        this.numRows = numRows;
+        this.numColumns = numColumns;
+        if (generateRandom)
+        {
+            data = generateRandomData(numRows, numColumns);
+        }
+        else
+        {
+            data = new int[numRows][numColumns];
+        }
+    }
+
+    public Matrix(int numRows, int numColumns, int[][] data)
+    {
+        this.numRows = numRows;
+        this.numColumns = numColumns;
+        this.data = data;
+    }
+
+    public int getNumRows()
+    {
+        return numRows;
+    }
+
+    public void setNumRows(int numRows)
+    {
         this.numRows = numRows;
     }
 
@@ -42,42 +75,99 @@ public class Matrix
         this.numColumns = numColumns;
     }
 
-    public int getNumRows()
-    {
-        return numRows;
-    }
-
-    public void setNumRows(int numRows)
-    {
-        this.numRows = numRows;
-    }
-
-    @Override
-    public boolean equals(Object o)
-    {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Matrix matrix = (Matrix) o;
-        return numColumns == matrix.numColumns &&
-                numRows == matrix.numRows;
-    }
-
-    @Override
-    public int hashCode()
-    {
-        return Objects.hash(numColumns, numRows);
-    }
-
     @Override
     public String toString()
     {
-        return "Matrix{" +
-                "numColumns=" + numColumns +
-                ", numRows=" + numRows +
-                '}';
+        StringBuilder s = new StringBuilder();
+        s.append("\n");
+        for (int i = 0; i < numRows; i++)
+        {
+            for (int j = 0; j < numColumns; j++)
+            {
+                s.append(String.format("%d ", data[i][j]));
+            }
+            s.append("\n");
+        }
+        return s.toString();
     }
 
-    // todo implement add
+    public String dataToString()
+    {
+        StringBuilder s = new StringBuilder();
+        s.append("\n");
+        for (int i = 0; i < numRows; i++)
+        {
+            for (int j = 0; j < numColumns; j++)
+            {
+                s.append(String.format("%d ", data[i][j]));
+            }
+            s.append("\n");
+        }
+        return s.toString();
+    }
 
-    // todo implement multiply
+    public static boolean compare(Matrix a, Matrix b)
+    {
+        for (int i = 0; i < a.numRows; i++)
+        {
+            for (int j = 0; j < a.numColumns; j++)
+            {
+                if (a.data[i][j] != b.data[i][j])
+                {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    private static int[][] generateRandomData(int numRows, int numColumns)
+    {
+        int[][] data = new int[numRows][numColumns];
+        for (int i = 0; i < numRows; i++)
+        {
+            for (int j = 0; j < numColumns; j++)
+            {
+                data[i][j] = ThreadLocalRandom.current().nextInt(0, 100);
+            }
+        }
+        return data;
+    }
+
+    public static Matrix computeSum(Matrix a, Matrix b)
+    {
+        // todo validate input
+        int numRows = a.numRows;
+        int numColumns = a.numColumns;
+        // todo init sum with appropriate data size
+        Matrix sum = new Matrix(numRows, numColumns, false);
+        for (int i = 0; i < numRows; i++)
+        {
+            for (int j = 0; j < numColumns; j++)
+            {
+                sum.data[i][j] = a.data[i][j] + b.data[i][j];
+            }
+        }
+        return sum;
+    }
+
+    public static Matrix computeProduct(Matrix a, Matrix b)
+    {
+        // todo validate input
+        // todo init product with appropriate data size
+        // todo product should have numRows of a and numColumns of b
+        Matrix product = new Matrix(a.numRows, b.numColumns, false);
+        for (int i = 0; i < a.numRows; i++)
+        {
+            for (int j = 0; j < b.numColumns; j++)
+            {
+                for (int k = 0; k < a.numColumns; k++)
+                {
+                    product.data[i][j] += (a.data[i][k] * b.data[k][j]);
+                }
+            }
+        }
+        return product;
+    }
 }
