@@ -11,11 +11,10 @@ public class AssignmentA04Test
 
     private static void test01()
     {
-        AssignmentA04 assignment04 = new AssignmentA04();
         String name = "AssignmentA04Test.test01";
         int[] inputArray = {10, 30, 2, 3, 63};
 
-        assignment04.run(inputArray);
+        AssignmentA04.run(inputArray);
 
         try
         {

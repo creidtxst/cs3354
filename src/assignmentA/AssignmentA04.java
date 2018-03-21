@@ -6,7 +6,7 @@ import java.util.List;
 
 public class AssignmentA04
 {
-    public void run(int[] unsortedArray)
+    public static void run(int[] unsortedArray)
     {
         List<ArrayIndex> arrayIndexList = generateArrayIndexList(unsortedArray);
         List<ArrayIndex> sortedArrayIndexList = bubbleSort(arrayIndexList);
