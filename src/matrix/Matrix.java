@@ -30,6 +30,11 @@ public class Matrix
         data = generateRandomData(numRows, numRows);
     }
 
+    /**
+     * Constructor
+     * @param numRows the number of rows
+     * @param numColumns the number of columns
+     */
     public Matrix(int numRows, int numColumns)
     {
         this.numRows = numRows;
@@ -37,6 +42,12 @@ public class Matrix
         data = generateRandomData(numRows, numColumns);
     }
 
+    /**
+     * Constructor
+     * @param numRows the number of rows
+     * @param numColumns the number of columns
+     * @param generateRandom whether or not to generate random values
+     */
     public Matrix(int numRows, int numColumns, boolean generateRandom)
     {
         this.numRows = numRows;
@@ -51,6 +62,12 @@ public class Matrix
         }
     }
 
+    /**
+     * Constructor
+     * @param numRows the number of rows
+     * @param numColumns the number of columns
+     * @param data the data within the matrix
+     */
     public Matrix(int numRows, int numColumns, int[][] data)
     {
         this.numRows = numRows;
@@ -83,6 +100,7 @@ public class Matrix
     {
         StringBuilder s = new StringBuilder();
         s.append("\n");
+
         for (int i = 0; i < numRows; i++)
         {
             for (int j = 0; j < numColumns; j++)
@@ -91,9 +109,16 @@ public class Matrix
             }
             s.append("\n");
         }
+
         return s.toString();
     }
 
+    /**
+     * Compare two matrices
+     * @param a the first matrix
+     * @param b the second matrix
+     * @return whether or not the two matrices are equal
+     */
     public static boolean compare(Matrix a, Matrix b)
     {
         for (int i = 0; i < a.numRows; i++)
@@ -110,9 +135,16 @@ public class Matrix
         return true;
     }
 
+    /**
+     * Generate random data
+     * @param numRows the number of rows
+     * @param numColumns the number of columns
+     * @return a two-dimensional array of random values
+     */
     private static int[][] generateRandomData(int numRows, int numColumns)
     {
         int[][] data = new int[numRows][numColumns];
+
         for (int i = 0; i < numRows; i++)
         {
             for (int j = 0; j < numColumns; j++)
@@ -120,9 +152,16 @@ public class Matrix
                 data[i][j] = ThreadLocalRandom.current().nextInt(LOWER_BOUND, UPPER_BOUND + 1);
             }
         }
+
         return data;
     }
 
+    /**
+     * Compute the sum of two matrices
+     * @param a the first matrix
+     * @param b the second matrix
+     * @return a matrix which is the sum of the two matrices
+     */
     public static Matrix computeSum(Matrix a, Matrix b)
     {
         // todo validate input
@@ -130,6 +169,7 @@ public class Matrix
         int numColumns = a.numColumns;
         // todo init sum with appropriate data size
         Matrix sum = new Matrix(numRows, numColumns, false);
+
         for (int i = 0; i < numRows; i++)
         {
             for (int j = 0; j < numColumns; j++)
@@ -137,15 +177,23 @@ public class Matrix
                 sum.data[i][j] = a.data[i][j] + b.data[i][j];
             }
         }
+
         return sum;
     }
 
+    /**
+     * Compute the product of two matrices
+     * @param a the first matrix
+     * @param b the second matrix
+     * @return the matrix which is the product of the two matrices
+     */
     public static Matrix computeProduct(Matrix a, Matrix b)
     {
         // todo validate input
         // todo init product with appropriate data size
         // todo product should have numRows of a and numColumns of b
         Matrix product = new Matrix(a.numRows, b.numColumns, false);
+
         for (int i = 0; i < a.numRows; i++)
         {
             for (int j = 0; j < b.numColumns; j++)
@@ -156,6 +204,7 @@ public class Matrix
                 }
             }
         }
+
         return product;
     }
 }

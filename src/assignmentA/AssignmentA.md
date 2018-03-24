@@ -78,6 +78,7 @@ Assignment A 03
  * matrix multiplication: https://www.mathsisfun.com/algebra/matrix-multiplying.html
  * https://introcs.cs.princeton.edu/java/95linear/Matrix.java.html
  * https://www.wyzant.com/resources/lessons/math/precalculus/matrices/matrix_addition_and_subtraction
+ * http://mathworld.wolfram.com/Determinant.html
  */
  
 Assignment A 04

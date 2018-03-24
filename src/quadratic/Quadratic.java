@@ -1,13 +1,14 @@
 package quadratic;
 
-import java.util.Objects;
-
 public class Quadratic
 {
     private double a;
     private double b;
     private double c;
 
+    /**
+     * Default constructor
+     */
     public Quadratic()
     {
         a = 0;
@@ -15,6 +16,12 @@ public class Quadratic
         c = 0;
     }
 
+    /**
+     * Constructor
+     * @param a
+     * @param b
+     * @param c
+     */
     public Quadratic(double a, double b, double c)
     {
         this.a = a;
@@ -52,6 +59,10 @@ public class Quadratic
         this.c = c;
     }
 
+    /**
+     * Solves the quadratic equation for a, b, c
+     * @return the roots of the solution
+     */
     public ComplexNumberPair solve()
     {
         double realRoot;
@@ -100,23 +111,6 @@ public class Quadratic
         ComplexNumberPair complexNumberPair = new ComplexNumberPair(complexNumber1, complexNumber2);
 
         return complexNumberPair;
-    }
-
-    @Override
-    public boolean equals(Object o)
-    {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Quadratic quadratic = (Quadratic) o;
-        return Double.compare(quadratic.a, a) == 0 &&
-                Double.compare(quadratic.b, b) == 0 &&
-                Double.compare(quadratic.c, c) == 0;
-    }
-
-    @Override
-    public int hashCode()
-    {
-        return Objects.hash(a, b, c);
     }
 
     @Override

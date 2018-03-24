@@ -2,6 +2,12 @@ package search;
 
 public class KnuthMorrisPrattSearch
 {
+    /**
+     * Find the number of occurrences of a given pattern within a string
+     * @param text the string to search
+     * @param pattern the pattern to find
+     * @return the number of occurences of the pattern within the string
+     */
     public static int findNumOccurrencesOfPattern(String text, String pattern)
     {
         text = text.toLowerCase();
@@ -25,21 +31,27 @@ public class KnuthMorrisPrattSearch
         return count;
     }
 
-    public static int search(String text, String pattern)
+    /**
+     * Search for the pattern within the string
+     * @param text the string to search
+     * @param pattern the pattern to find
+     * @return the index at which the pattern is found within the string
+     */
+    private static int search(String text, String pattern)
     {
         int[] longestProperSuffixArray = computeLongestProperSuffixArray(pattern);
+        int j = 0;  // Number of characters matched
 
-        int j = 0;  // Number of chars matched in pattern
         for (int i = 0; i < text.length(); i++)
         {
             while (j > 0 && text.charAt(i) != pattern.charAt(j))
             {
-                // Fall back in the pattern
+                // Go back in the pattern
                 j = longestProperSuffixArray[j - 1];  // Strictly decreasing
             }
             if (text.charAt(i) == pattern.charAt(j))
             {
-                // Next char matched, increment position
+                // Increment position, next character has been matched
                 j++;
                 if (j == pattern.length())
                 {
@@ -48,16 +60,23 @@ public class KnuthMorrisPrattSearch
             }
         }
 
-        return -1;  // Not found
+        return -1;  // Pattern was NOT found
     }
 
+    /**
+     * Compute the longest proper suffix. This is also known as the longest proper prefix. This prefix is a prefix where
+     * the entire pattern is NOT allowed.
+     * @param pattern the pattern to compute
+     * @return the array of longest proper suffixes
+     */
     private static int[] computeLongestProperSuffixArray(String pattern)
     {
         int[] longestProperSuffixArray = new int[pattern.length()];
         longestProperSuffixArray[0] = 0;  // Base case
+
         for (int i = 1; i < pattern.length(); i++)
         {
-            // Start by assuming we're extending the previous Longest Proper Suffix
+            // Assumed previous Longest Proper Suffix is extended
             int j = longestProperSuffixArray[i - 1];
             while (j > 0 && pattern.charAt(i) != pattern.charAt(j))
             {
@@ -69,6 +88,7 @@ public class KnuthMorrisPrattSearch
             }
             longestProperSuffixArray[i] = j;
         }
+
         return longestProperSuffixArray;
     }
 }

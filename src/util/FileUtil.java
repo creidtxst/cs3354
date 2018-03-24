@@ -9,6 +9,11 @@ import java.util.List;
 
 public class FileUtil
 {
+    /**
+     * Read a file given a file name and return a list of the lines within the file
+     * @param fileName the filename to read
+     * @return a list of the lines within the file
+     */
     public static List<String> readFile(String fileName)
     {
         List<String> stringList = new ArrayList<>();

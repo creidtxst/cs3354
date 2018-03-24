@@ -29,10 +29,7 @@ public class AssignmentA02Test
         int expectedOutput = 2;
 
         // Dry run before beginning timing
-        AssignmentA02.runBoyerMoore(needle, haystack);
         AssignmentA02.runKnuthMorrisPratt(needle, haystack);
-        AssignmentA02.runRabinKarp(needle, haystack);
-        AssignmentA02.runNaiveSearch(needle, haystack);
 
         runTest(testName, expectedOutput, needle, haystack);
     }
@@ -116,23 +113,9 @@ public class AssignmentA02Test
     private static void runTest(String testName, int expectedOutput, String needle, String haystack)
     {
         long start = System.nanoTime();
-        int output = AssignmentA02.runBoyerMoore(needle, haystack);
+        int output = AssignmentA02.runKnuthMorrisPratt(needle, haystack);
         long end = System.nanoTime();
-        long diff01 = end - start;
-
-        try
-        {
-            validate(testName, "needle: " + needle + "\nhaystack: " + haystack, output, expectedOutput, true);
-        }
-        catch (Exception exc)
-        {
-            System.out.print("\n\n" + exc);
-        }
-
-        start = System.nanoTime();
-        output = AssignmentA02.runKnuthMorrisPratt(needle, haystack);
-        end = System.nanoTime();
-        long diff02 = end - start;
+        long diff = end - start;
 
         try
         {
@@ -143,37 +126,6 @@ public class AssignmentA02Test
             System.out.print("\n\n" + exc);
         }
 
-        start = System.nanoTime();
-        output = AssignmentA02.runRabinKarp(needle, haystack);
-        end = System.nanoTime();
-        long diff03 = end - start;
-
-        try
-        {
-            validate(testName, "needle: " + needle + "\nhaystack: " + haystack, output, expectedOutput, false);
-        }
-        catch (Exception exc)
-        {
-            System.out.print("\n\n" + exc);
-        }
-
-        start = System.nanoTime();
-        output = AssignmentA02.runNaiveSearch(needle, haystack);
-        end = System.nanoTime();
-        long diff04 = end - start;
-
-        try
-        {
-            validate(testName, "needle: " + needle + "\nhaystack: " + haystack, output, expectedOutput, false);
-        }
-        catch (Exception exc)
-        {
-            System.out.print("\n\n" + exc);
-        }
-
-        System.out.print("Boyer-Moore Search (in nanoseconds):        " + diff01 + "\n");
-        System.out.print("Knuth-Morris-Pratt Search (in nanoseconds): " + diff02 + "\n");
-        System.out.print("Rabin-Karp Search (in nanoseconds):         " + diff03 + "\n");
-        System.out.print("Naive Search (in nanoseconds):              " + diff04 + "\n\n");
+        System.out.print("Knuth-Morris-Pratt Search (in nanoseconds): " + diff + "\n");
     }
 }
