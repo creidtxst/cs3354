@@ -13,8 +13,6 @@ public class ArrayIndex
         value = -1;
     }
 
-
-
     public ArrayIndex(int originalIndex, int value)
     {
         this.originalIndex = originalIndex;

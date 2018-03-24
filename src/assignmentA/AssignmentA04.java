@@ -4,30 +4,25 @@ import array.ArrayIndex;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Requirements:
- * <p>
- * 1) Implement a Java method that sorts your list/array
- * 2) return the sorted array
- * 3) Return the original positions of the unsorted array
- * <p>
- * References:
- * <p>
- * https://www.cs.cmu.edu/~adamchik/15-121/lectures/Sorting%20Algorithms/sorting.html
- */
-
 public class AssignmentA04
 {
-    public void run(int[] unsortedArray)
+    /**
+     * Sort the given array
+     * @param unsortedArray the array to sort
+     * @return the object list containing the sorted values and corresponding original indexes
+     */
+    public static List<ArrayIndex> run(int[] unsortedArray)
     {
         List<ArrayIndex> arrayIndexList = generateArrayIndexList(unsortedArray);
-        List<ArrayIndex> sortedArrayIndexList = bubbleSort(arrayIndexList);
-
-        System.out.print("\n" + arrayIndexList.toString());
-        System.out.print("\n" + sortedArrayIndexList.toString());
+        return bubbleSort(arrayIndexList);
     }
 
-    private static List<ArrayIndex> generateArrayIndexList(int[] array)
+    /**
+     * Generate an object list from the given array primitive
+     * @param array the array
+     * @return the object list
+     */
+    public static List<ArrayIndex> generateArrayIndexList(int[] array)
     {
         List<ArrayIndex> arrayIndexList = new ArrayList<>();
 
@@ -42,7 +37,12 @@ public class AssignmentA04
         return arrayIndexList;
     }
 
-    private static List<ArrayIndex> bubbleSort(List<ArrayIndex> originalArrayIndexList)
+    /**
+     * Bubble sort implementation
+     * @param originalArrayIndexList the original list
+     * @return the sorted list
+     */
+    public static List<ArrayIndex> bubbleSort(List<ArrayIndex> originalArrayIndexList)
     {
         List<ArrayIndex> sortedArrayIndexList = new ArrayList<>(originalArrayIndexList);
 
@@ -61,4 +61,39 @@ public class AssignmentA04
 
         return sortedArrayIndexList;
     }
+
+    /**
+     * Transform the object list to an array containing the original indexes
+     * @param arrayIndexList the object list
+     * @return the array of original indexes
+     */
+    public static int[] arrayIndexListToOriginalIndexArray(List<ArrayIndex> arrayIndexList)
+    {
+        int[] originalIndexArray = new int[arrayIndexList.size()];
+
+        for (int i = 0; i < arrayIndexList.size(); i++)
+        {
+            originalIndexArray[i] = arrayIndexList.get(i).getOriginalIndex();
+        }
+
+        return originalIndexArray;
+    }
+
+    /**
+     * Transform the object list to an array containing the sorted values
+     * @param arrayIndexList the object list
+     * @return the array of sorted values
+     */
+    public static int[] arrayIndexListToSortedArray(List<ArrayIndex> arrayIndexList)
+    {
+        int[] sortedArrayIndex = new int[arrayIndexList.size()];
+
+        for (int i = 0; i < arrayIndexList.size(); i++)
+        {
+            sortedArrayIndex[i] = arrayIndexList.get(i).getValue();
+        }
+
+        return sortedArrayIndex;
+    }
+
 }

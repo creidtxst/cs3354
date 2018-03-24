@@ -1,18 +1,24 @@
 package quadratic;
 
-import java.util.Objects;
-
 public class ComplexNumberPair
 {
     private ComplexNumber complexNumber1;
     private ComplexNumber complexNumber2;
 
+    /**
+     * Default constructor
+     */
     public ComplexNumberPair()
     {
         complexNumber1 = new ComplexNumber();
         complexNumber2 = new ComplexNumber();
     }
 
+    /**
+     * Constructor
+     * @param complexNumber1 the first complex number
+     * @param complexNumber2 the second complex number
+     */
     public ComplexNumberPair(ComplexNumber complexNumber1, ComplexNumber complexNumber2)
     {
         this.complexNumber1 = complexNumber1;
@@ -37,22 +43,6 @@ public class ComplexNumberPair
     public void setComplexNumber2(ComplexNumber complexNumber2)
     {
         this.complexNumber2 = complexNumber2;
-    }
-
-    @Override
-    public boolean equals(Object o)
-    {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ComplexNumberPair that = (ComplexNumberPair) o;
-        return Objects.equals(complexNumber1, that.complexNumber1) &&
-                Objects.equals(complexNumber2, that.complexNumber2);
-    }
-
-    @Override
-    public int hashCode()
-    {
-        return Objects.hash(complexNumber1, complexNumber2);
     }
 
     @Override

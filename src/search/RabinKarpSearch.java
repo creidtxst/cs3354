@@ -4,7 +4,30 @@ public class RabinKarpSearch
 {
     private static final int ALPHABET_SIZE = 256;
 
-    static void search(String pattern, String text, int primeNumber)
+    public static int findNumOccurrencesOfPattern(String text, String pattern)
+    {
+        text = text.toLowerCase();
+        pattern = pattern.toLowerCase();
+        int count = 0;
+        int index = 0;
+        int tempIndex;
+
+        do
+        {
+            tempIndex = index;
+            index = search(pattern, text, 101);
+            text = text.substring(index + pattern.length(), text.length());
+
+            if (index > 0 && index != tempIndex)
+            {
+                count++;
+            }
+        } while (index != tempIndex);
+
+        return count;
+    }
+
+    public static int search(String pattern, String text, int primeNumber)
     {
         int M = pattern.length();
         int N = text.length();
@@ -44,7 +67,7 @@ public class RabinKarpSearch
                 // if p == t and pat[0...M-1] = txt[i, i+1, ...i+M-1]
                 if (j == M)
                 {
-                    System.out.println("Pattern found at index " + i);
+                    return i;
                 }
             }
 
@@ -60,13 +83,6 @@ public class RabinKarpSearch
                 }
             }
         }
-    }
-
-    public static void main(String[] args)
-    {
-        String txt = "GEEKS FOR GEEKS";
-        String pat = "GEEK";
-        int primeNumber = 101; // A prime number
-        search(pat, txt, primeNumber);
+        return 0;
     }
 }

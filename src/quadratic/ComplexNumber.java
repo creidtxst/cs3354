@@ -1,7 +1,5 @@
 package quadratic;
 
-import java.util.Objects;
-
 public class ComplexNumber
 {
     private double real;
@@ -9,12 +7,20 @@ public class ComplexNumber
     private boolean isSpecialCase;  // negative discriminant
     private double specialCaseDenominator;
 
+    /**
+     * Constructor
+     */
     public ComplexNumber()
     {
         real = 0;
         real = 0;
     }
 
+    /**
+     * Constructor
+     * @param real the real root
+     * @param imaginary the imaginary root
+     */
     public ComplexNumber(double real, double imaginary)
     {
         this.real = real;
@@ -22,6 +28,13 @@ public class ComplexNumber
         this.isSpecialCase = false;
     }
 
+    /**
+     * Constructor
+     * @param real the real root
+     * @param imaginary the imaginary root
+     * @param isSpecialCase whether or not the determinant is negative
+     * @param specialCaseDenominator the denominator to use in the special case
+     */
     public ComplexNumber(double real, double imaginary, boolean isSpecialCase, double specialCaseDenominator)
     {
         this.real = real;
@@ -73,22 +86,6 @@ public class ComplexNumber
     public void setSpecialCaseDenominator(double specialCaseDenominator)
     {
         this.specialCaseDenominator = specialCaseDenominator;
-    }
-
-    @Override
-    public boolean equals(Object o)
-    {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ComplexNumber that = (ComplexNumber) o;
-        return Double.compare(that.real, real) == 0 &&
-                Double.compare(that.imaginary, imaginary) == 0;
-    }
-
-    @Override
-    public int hashCode()
-    {
-        return Objects.hash(real, imaginary);
     }
 
     @Override

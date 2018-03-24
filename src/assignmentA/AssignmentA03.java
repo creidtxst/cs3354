@@ -4,21 +4,14 @@ import matrix.Matrix;
 import util.FileUtil;
 import java.util.List;
 
-/**
- * References:
- * <p>
- * matrix addition: http://www.purplemath.com/modules/mtrxadd.htm
- * matrix multiplication: https://www.mathsisfun.com/algebra/matrix-multiplying.html
- */
-
 public class AssignmentA03
 {
-    public void run(String fileName)
-    {
-        generateRandomMatrixFromFileInput(fileName);
-    }
-
-    public Matrix generateRandomMatrixFromFileInput(String fileName)
+    /**
+     * Generate a random matrix from file input
+     * @param fileName the file which specifies the number of columns and rows defining the matrix
+     * @return the matrix
+     */
+    public static Matrix generateRandomMatrixFromFileInput(String fileName)
     {
         List<String> stringList = FileUtil.readFile(fileName);
 
@@ -30,16 +23,13 @@ public class AssignmentA03
             return null;
         }
 
-        Matrix matrix = new Matrix(inputArray);
-        System.out.print("\n" + matrix.toString());
-        return matrix;
+        return new Matrix(inputArray);
     }
 
     /**
      * Validate input list and then transform from List of Object types to array of int primitive types.
-     *
-     * @param matrixInputList
-     * @return
+     * @param matrixInputList a matrix input list
+     * @return an array of size 2 containing the number of rows and number of columns of the matrix
      */
     private static int[] validateAndTransformInputList(List<String> matrixInputList)
     {
@@ -82,11 +72,21 @@ public class AssignmentA03
         return inputArray;
     }
 
+    /**
+     * Whether or not the input is valid.
+     * @param input the input to validate
+     * @return whether or not the input is valid
+     */
     private static boolean inputIsValid(int input)
     {
         return input != -1;
     }
 
+    /**
+     * Extracts input from the given line
+     * @param line the line to extract input from
+     * @return the value extracted from the line
+     */
     private static int extractInputFromLine(String line)
     {
         int input;

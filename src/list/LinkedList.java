@@ -16,6 +16,10 @@ public class LinkedList
         }
     }
 
+    /**
+     * Constructor
+     * @param dataArray the data array
+     */
     public LinkedList(int[] dataArray)
     {
         for (int data : dataArray)
@@ -24,11 +28,15 @@ public class LinkedList
         }
     }
 
+    /**
+     * Reverse the list
+     */
     public void reverse()
     {
         Node prev = null;
         Node cur = head;
-        Node next = null;
+        Node next;
+
         while (cur != null)
         {
             next = cur.next;
@@ -36,9 +44,14 @@ public class LinkedList
             prev = cur;
             cur = next;
         }
+
         head = prev;
     }
 
+    /**
+     * Push a value onto the list
+     * @param data the data to push
+     */
     public void push(int data)
     {
         Node node = new Node(data);
@@ -47,18 +60,9 @@ public class LinkedList
     }
 
     /**
-     * Prints linked list
+     * Return the number of nodes in the list
+     * @return the number of nodes in the list
      */
-    public void printList()
-    {
-        Node cur = head;
-        while (cur != null)
-        {
-            System.out.print(cur.data + " ");
-            cur = cur.next;
-        }
-    }
-
     private int getNumNodes()
     {
         int i = 0;
@@ -68,9 +72,14 @@ public class LinkedList
             i++;
             cur = cur.next;
         }
+
         return i;
     }
 
+    /**
+     * Transform the linked list to an array of values
+     * @return the array of values in teh linked list
+     */
     public int[] toArray()
     {
         int c = getNumNodes();
@@ -83,6 +92,7 @@ public class LinkedList
             a[i++] = cur.data;
             cur = cur.next;
         }
+
         return a;
     }
 }
