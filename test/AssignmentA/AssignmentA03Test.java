@@ -5,7 +5,8 @@ import matrix.Matrix;
 
 public class AssignmentA03Test
 {
-    private static final String BASE_FILE_PATH = "/Users/creid/Desktop/NWR/school/spring-2018/TXSTRR/CS-3354/cs3354/test/AssignmentA/matrixInput/";
+    // private static final String BASE_FILE_PATH = "/Users/creid/Desktop/NWR/school/spring-2018/TXSTRR/CS-3354/cs3354/test/AssignmentA/matrixInput/";
+    private static final String BASE_FILE_PATH = "/home/chad/IdeaProjects/cs3354/test/AssignmentA/matrixInput";
 
     public static void main(String[] args)
     {
@@ -126,8 +127,8 @@ public class AssignmentA03Test
 
     private static void test01()
     {
-        String fileName1 = BASE_FILE_PATH + "matrixInput01.txt";
-        String fileName2 = BASE_FILE_PATH + "matrixInput02.txt";
+        String fileName1 = BASE_FILE_PATH + "/matrixInput01.txt";
+        String fileName2 = BASE_FILE_PATH + "/matrixInput02.txt";
 
         Matrix matrix1 = AssignmentA03.generateRandomMatrixFromFileInput(fileName1);
         Matrix matrix2 = AssignmentA03.generateRandomMatrixFromFileInput(fileName2);
