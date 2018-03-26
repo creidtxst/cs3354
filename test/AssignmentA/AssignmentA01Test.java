@@ -15,7 +15,6 @@ public class AssignmentA01Test
         AssignmentA01Test.test03();
         AssignmentA01Test.test04();
         AssignmentA01Test.test05();
-
     }
 
     private static void test01()
@@ -23,9 +22,7 @@ public class AssignmentA01Test
         double a = 1;
         double b = 6;
         double c = -14;
-
-        double expectedReal = -3 + Double.valueOf(decimalFormatter.format(4.7958315233));
-
+        
         /*
             Solution:
             -3 +- sqrt(23)
@@ -33,11 +30,10 @@ public class AssignmentA01Test
          */
 
         ComplexNumberPair complexNumberPair = AssignmentA01.run(a, b, c);
-        System.out.print(complexNumberPair.toString() + "\n");
 
         try
         {
-            validate("AssignmentA01Test.test01", a, b, c, 1, 2);
+            validate("AssignmentA01Test.test01", a, b, c, complexNumberPair);
 
         }
         catch (Exception exc)
@@ -59,11 +55,10 @@ public class AssignmentA01Test
          */
 
         ComplexNumberPair complexNumberPair = AssignmentA01.run(a, b, c);
-        System.out.print(complexNumberPair.toString() + "\n");
 
         try
         {
-            validate("AssignmentA01Test.test02", a, b, c, 1, 2);
+            validate("AssignmentA01Test.test02", a, b, c, complexNumberPair);
         }
         catch (Exception exc)
         {
@@ -73,21 +68,20 @@ public class AssignmentA01Test
 
     private static void test03()
     {
-        double a = -5;
-        double b = 3;
-        double c = -11;
+        double a = 4;
+        double b = 6;
+        double c = 5;
 
         /*
-            Solution:
-            (-3/-10) +- (sqrt(-211)/-10)
+            Solution (imaginary):
+            (-3/4) +- (sqrt(11)/4 i)
          */
 
         ComplexNumberPair complexNumberPair = AssignmentA01.run(a, b, c);
-        System.out.print(complexNumberPair.toString() + "\n");
 
         try
         {
-            validate("AssignmentA01Test.test03", a, b, c, 1, 2);
+            validate("AssignmentA01Test.test03", a, b, c, complexNumberPair);
         }
         catch (Exception exc)
         {
@@ -108,11 +102,10 @@ public class AssignmentA01Test
          */
 
         ComplexNumberPair complexNumberPair = AssignmentA01.run(a, b, c);
-        System.out.print(complexNumberPair.toString() + "\n");
 
         try
         {
-            validate("AssignmentA01Test.test04", a, b, c, 1, 2);
+            validate("AssignmentA01Test.test04", a, b, c, complexNumberPair);
         }
         catch (Exception exc)
         {
@@ -133,11 +126,10 @@ public class AssignmentA01Test
          */
 
         ComplexNumberPair complexNumberPair = AssignmentA01.run(a, b, c);
-        System.out.print(complexNumberPair.toString() + "\n");
 
         try
         {
-            validate("AssignmentA01Test.test05", a, b, c, 1, 2);
+            validate("AssignmentA01Test.test05", a, b, c, complexNumberPair);
         }
         catch (Exception exc)
         {
@@ -145,15 +137,28 @@ public class AssignmentA01Test
         }
     }
 
-    private static void validate(String name, double a, double b, double c, double p, double q) throws Exception
+    private static void validate(String name, double a, double b, double c, ComplexNumberPair complexNumberPair) throws Exception
     {
-        if (false)
+        boolean isImaginary = complexNumberPair.getComplexNumber1().isImaginary() || complexNumberPair.getComplexNumber2().isImaginary();
+
+        double p = complexNumberPair.getComplexNumber1().getReal() + complexNumberPair.getComplexNumber1().getImaginary();
+        double q = complexNumberPair.getComplexNumber2().getReal() + complexNumberPair.getComplexNumber2().getImaginary();
+        
+        double rootSum = p + q;
+        double argSum = -b / a;
+        boolean isValidSum = Double.compare(Double.valueOf(decimalFormatter.format(rootSum)), Double.valueOf(decimalFormatter.format(argSum))) == 0;
+
+        double rootProduct = p * q;
+        double argProduct = c / a;
+        boolean isValidProduct = Double.compare(Double.valueOf(decimalFormatter.format(rootProduct)), Double.valueOf(decimalFormatter.format(argProduct))) == 0;
+
+        if (!isImaginary && (!isValidSum || !isValidProduct))
         {
             throw new Exception(name + " FAILED - expected: " + 1 + " actual: " + 2 + "\n");
         }
         System.out.print(name + "\n");
         System.out.print("---------------------\n");
-        System.out.print("a:   " + a);
+        System.out.print("a: " + a);
         System.out.print("\nb: " + b);
         System.out.print("\nc: " + c);
         System.out.print("\np: " + p);

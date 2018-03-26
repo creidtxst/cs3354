@@ -4,8 +4,7 @@ public class ComplexNumber
 {
     private double real;
     private double imaginary;
-    private boolean isSpecialCase;  // negative discriminant
-    private double specialCaseDenominator;
+    private boolean isImaginary;
 
     /**
      * Constructor
@@ -13,7 +12,7 @@ public class ComplexNumber
     public ComplexNumber()
     {
         real = 0;
-        real = 0;
+        imaginary = 0;
     }
 
     /**
@@ -21,26 +20,11 @@ public class ComplexNumber
      * @param real the real root
      * @param imaginary the imaginary root
      */
-    public ComplexNumber(double real, double imaginary)
+    public ComplexNumber(double real, double imaginary, boolean isImaginary)
     {
         this.real = real;
         this.imaginary = imaginary;
-        this.isSpecialCase = false;
-    }
-
-    /**
-     * Constructor
-     * @param real the real root
-     * @param imaginary the imaginary root
-     * @param isSpecialCase whether or not the determinant is negative
-     * @param specialCaseDenominator the denominator to use in the special case
-     */
-    public ComplexNumber(double real, double imaginary, boolean isSpecialCase, double specialCaseDenominator)
-    {
-        this.real = real;
-        this.imaginary = imaginary;
-        this.isSpecialCase = isSpecialCase;
-        this.specialCaseDenominator = specialCaseDenominator;
+        this.isImaginary = isImaginary;
     }
 
     public double getReal()
@@ -63,86 +47,13 @@ public class ComplexNumber
         this.imaginary = imaginary;
     }
 
-    public boolean isReal()
+    public boolean isImaginary()
     {
-        return imaginary == 0;
+        return isImaginary;
     }
 
-    public boolean isSpecialCase()
+    public void setImaginary(boolean imaginary)
     {
-        return isSpecialCase;
-    }
-
-    public void setSpecialCase(boolean specialCase)
-    {
-        isSpecialCase = specialCase;
-    }
-
-    public double getSpecialCaseDenominator()
-    {
-        return specialCaseDenominator;
-    }
-
-    public void setSpecialCaseDenominator(double specialCaseDenominator)
-    {
-        this.specialCaseDenominator = specialCaseDenominator;
-    }
-
-    @Override
-    public String toString()
-    {
-        if (imaginary == 0)
-        {
-            return real + " + " + "0.0";
-        }
-
-        if (real == 0)
-        {
-            if (imaginary < 0)
-            {
-                if (isSpecialCase)
-                {
-                    return "0.0" + " - i sqrt(" + (imaginary) + ") / " + specialCaseDenominator;
-                }
-                else
-                {
-                    return "0.0" + " - " + (-imaginary);
-                }
-            }
-            else
-            {
-                if (isSpecialCase)
-                {
-                    return "0.0" + " + i sqrt(" + -imaginary + ") / " + specialCaseDenominator;
-                }
-                else
-                {
-                    return "0.0" + " + " + imaginary;
-                }
-            }
-        }
-
-        if (imaginary < 0)
-        {
-            if (isSpecialCase)
-            {
-                return real + " - i sqrt(" + (imaginary) + ") / " + specialCaseDenominator;
-            }
-            else
-            {
-                return real + " - " + (-imaginary);
-            }
-        }
-        else
-        {
-            if (isSpecialCase)
-            {
-                return real + " + i sqrt(" + -imaginary + ") / " + specialCaseDenominator;
-            }
-            else
-            {
-                return real + " + " + imaginary;
-            }
-        }
+        isImaginary = imaginary;
     }
 }

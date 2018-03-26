@@ -164,10 +164,8 @@ public class Matrix
      */
     public static Matrix computeSum(Matrix a, Matrix b)
     {
-        // todo validate input
         int numRows = a.numRows;
         int numColumns = a.numColumns;
-        // todo init sum with appropriate data size
         Matrix sum = new Matrix(numRows, numColumns, false);
 
         for (int i = 0; i < numRows; i++)
@@ -189,9 +187,6 @@ public class Matrix
      */
     public static Matrix computeProduct(Matrix a, Matrix b)
     {
-        // todo validate input
-        // todo init product with appropriate data size
-        // todo product should have numRows of a and numColumns of b
         Matrix product = new Matrix(a.numRows, b.numColumns, false);
 
         for (int i = 0; i < a.numRows; i++)

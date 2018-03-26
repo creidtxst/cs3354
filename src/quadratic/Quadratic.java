@@ -18,6 +18,7 @@ public class Quadratic
 
     /**
      * Constructor
+     *
      * @param a
      * @param b
      * @param c
@@ -61,13 +62,14 @@ public class Quadratic
 
     /**
      * Solves the quadratic equation for a, b, c
+     *
      * @return the roots of the solution
      */
     public ComplexNumberPair solve()
     {
         double realRoot;
         double imaginaryRoot;
-        boolean isSpecialCase = false;
+        boolean isImaginary = false;
 
         // Value underneath the square root
         double discriminant = Math.pow(b, 2) - (4 * a * c);
@@ -75,7 +77,6 @@ public class Quadratic
         // Case 1: discriminant is equal to zero
         if (discriminant == 0)
         {
-            // todo handle divide by zero
             realRoot = -b / (2 * a);
             imaginaryRoot = 0;
         }
@@ -83,61 +84,19 @@ public class Quadratic
         else if (discriminant > 0)
         {
             realRoot = -b / (2 * a);
-            // todo handle square root of negative number
             imaginaryRoot = Math.sqrt(discriminant) / (2 * a);
         }
         // Case 3: discriminant is negative
         else
         {
-            isSpecialCase = true;
             realRoot = -b / (2 * a);
-            imaginaryRoot = -discriminant;
+            // Flip the sign of the negative discriminant
+            imaginaryRoot = Math.sqrt(-discriminant) / (2 * a);
+            isImaginary = true;
         }
 
-        ComplexNumber complexNumber1;
-        ComplexNumber complexNumber2;
-
-        if (isSpecialCase)
-        {
-            complexNumber1 = new ComplexNumber(realRoot, imaginaryRoot, isSpecialCase, (2 * a));
-            complexNumber2 = new ComplexNumber(realRoot, -imaginaryRoot, isSpecialCase, (2 * a));
-        }
-        else
-        {
-            complexNumber1 = new ComplexNumber(realRoot, imaginaryRoot);
-            complexNumber2 = new ComplexNumber(realRoot, -imaginaryRoot);
-        }
-
-        ComplexNumberPair complexNumberPair = new ComplexNumberPair(complexNumber1, complexNumber2);
+        ComplexNumberPair complexNumberPair = new ComplexNumberPair(new ComplexNumber(realRoot, imaginaryRoot, isImaginary), new ComplexNumber(realRoot, -imaginaryRoot, isImaginary));
 
         return complexNumberPair;
-    }
-
-    @Override
-    public String toString()
-    {
-        String equation = a + "x^2 ";
-
-        if (b < 0)
-        {
-            equation += (" - " + (-b) + "x ");
-        }
-        else
-        {
-            equation += (" + " + b + "x ");
-        }
-
-        if (c < 0)
-        {
-            equation += (" - " + (-c));
-        }
-        else
-        {
-            equation += (" + " + c);
-        }
-
-        equation += " = 0.0";
-
-        return equation;
     }
 }
