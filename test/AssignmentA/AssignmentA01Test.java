@@ -13,6 +13,9 @@ public class AssignmentA01Test
         AssignmentA01Test.test01();
         AssignmentA01Test.test02();
         AssignmentA01Test.test03();
+        AssignmentA01Test.test04();
+        AssignmentA01Test.test05();
+
     }
 
     private static void test01()
@@ -86,6 +89,54 @@ public class AssignmentA01Test
         try
         {
             validate("AssignmentA01Test.test03", a, b, c, 1, 2);
+        }
+        catch (Exception exc)
+        {
+            System.out.print("\n\n" + exc);
+        }
+    }
+    //TODO : DEFINE TEST 4
+    private static void test04()
+    {
+        double a = 3;
+        double b = 7;
+        double c = 2;
+
+        /*
+            Solution:
+
+         */
+
+        ComplexNumberPair complexNumberPair = AssignmentA01.run(a, b, c);
+        System.out.print(complexNumberPair.toString() + "\n");
+
+        try
+        {
+            validate("AssignmentA01Test.test04", a, b, c, 1, 2);
+        }
+        catch (Exception exc)
+        {
+            System.out.print("\n\n" + exc);
+        }
+    }
+    //TODO : DEFINE TEST 5
+    private static void test05()
+    {
+        double a = 15;
+        double b = 28;
+        double c = -15;
+
+        /*
+            Solution:
+
+         */
+
+        ComplexNumberPair complexNumberPair = AssignmentA01.run(a, b, c);
+        System.out.print(complexNumberPair.toString() + "\n");
+
+        try
+        {
+            validate("AssignmentA01Test.test05", a, b, c, 1, 2);
         }
         catch (Exception exc)
         {
