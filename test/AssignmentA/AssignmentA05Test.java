@@ -8,7 +8,6 @@ public class AssignmentA05Test
 {
     public static void main(String[] args)
     {
-
         AssignmentA05Test.test01();
         AssignmentA05Test.test02();
         AssignmentA05Test.test03();
@@ -20,11 +19,9 @@ public class AssignmentA05Test
     {
         String name = "AssignmentA05Test.test01";
         int[] input = {10, 30, 2, 3, 63};
-        int[] inputReversed = {63, 3, 2, 30, 10};
-        int[] expectedOutput = inputReversed;
+        int[] expectedOutput = {63, 3, 2, 30, 10};
 
         LinkedList reversedList = AssignmentA05.run(input);
-        reversedList.reverse();
 
         try
         {
@@ -40,11 +37,9 @@ public class AssignmentA05Test
     {
         String name = "AssignmentA05Test.test02";
         int[] input = {25, 20, 15, 10, 5};
-        int[] inputReversed = {5, 10, 15, 20, 25};
-        int[] expectedOutput = inputReversed;
+        int[] expectedOutput = {5, 10, 15, 20, 25};
 
         LinkedList reversedList = AssignmentA05.run(input);
-        reversedList.reverse();
 
         try
         {
@@ -60,11 +55,9 @@ public class AssignmentA05Test
     {
         String name = "AssignmentA05Test.test03";
         int[] input = {10, 9, 8, 7, 6};
-        int[] inputReversed = {6, 7, 8, 9, 10};
-        int[] expectedOutput = inputReversed;
+        int[] expectedOutput = {6, 7, 8, 9, 10};
 
         LinkedList reversedList = AssignmentA05.run(input);
-        reversedList.reverse();
 
         try
         {
@@ -80,11 +73,9 @@ public class AssignmentA05Test
     {
         String name = "AssignmentA05Test.test04";
         int[] input = {3, 6, 9, 12, 15};
-        int[] inputReversed = {15, 12, 9, 6, 3};
-        int[] expectedOutput = inputReversed;
+        int[] expectedOutput = {15, 12, 9, 6, 3};
 
         LinkedList reversedList = AssignmentA05.run(input);
-        reversedList.reverse();
 
         try
         {
@@ -100,11 +91,9 @@ public class AssignmentA05Test
     {
         String name = "AssignmentA05Test.test05";
         int[] input = {83, 87, 11, 12, 9};
-        int[] inputReversed = {9, 12, 11, 87, 83};
-        int[] expectedOutput = inputReversed;
+        int[] expectedOutput = {9, 12, 11, 87, 83};
 
         LinkedList reversedList = AssignmentA05.run(input);
-        reversedList.reverse();
 
         try
         {

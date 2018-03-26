@@ -119,7 +119,7 @@ public class AssignmentA02Test
 
         try
         {
-            validate(testName, "needle: " + needle + "\nhaystack: " + haystack, output, expectedOutput, false);
+            validate(testName, "needle: " + needle + "\nhaystack: " + haystack, output, expectedOutput, true);
         }
         catch (Exception exc)
         {
