@@ -73,7 +73,6 @@ public class AssignmentA01Test
 
     private static void test03()
     {
-        String name = "AssignmentA01Test.test03";
         double a = -5;
         double b = 3;
         double c = -11;
@@ -95,16 +94,17 @@ public class AssignmentA01Test
             System.out.print("\n\n" + exc);
         }
     }
-    //TODO : DEFINE TEST 4
+
     private static void test04()
     {
-        double a = 3;
-        double b = 7;
-        double c = 2;
+        double a = 2;
+        double b = -7;
+        double c = -5;
 
         /*
             Solution:
-
+            7 +- sqrt(89)
+            7 +- 9.4339811321
          */
 
         ComplexNumberPair complexNumberPair = AssignmentA01.run(a, b, c);
@@ -119,16 +119,17 @@ public class AssignmentA01Test
             System.out.print("\n\n" + exc);
         }
     }
-    //TODO : DEFINE TEST 5
+
     private static void test05()
     {
-        double a = 15;
-        double b = 28;
-        double c = -15;
+        double a = 3;
+        double b = -10;
+        double c = -4;
 
         /*
             Solution:
-
+            5 +- sqrt(37)
+            5 +- 5.1961524227
          */
 
         ComplexNumberPair complexNumberPair = AssignmentA01.run(a, b, c);
