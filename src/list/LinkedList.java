@@ -22,9 +22,9 @@ public class LinkedList
      */
     public LinkedList(int[] dataArray)
     {
-        for (int data : dataArray)
+        for (int i = dataArray.length; i > 0; i--)
         {
-            this.push(data);
+            this.push(dataArray[i - 1]);
         }
     }
 

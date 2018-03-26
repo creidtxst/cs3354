@@ -15,14 +15,13 @@ public class AssignmentA05Test
     {
         String name = "AssignmentA05Test.test01";
         int[] input = {10, 30, 2, 3, 63};
-        int[] inputReversed = {63, 3, 2, 30, 10};
-        int[] expectedOutput = input;
+        int[] expectedOutput = {63, 3, 2, 30, 10};
 
         LinkedList reversedList = AssignmentA05.run(input);
 
         try
         {
-            validate(name, inputReversed, reversedList.toArray(), expectedOutput);
+            validate(name, input, reversedList.toArray(), expectedOutput);
         }
         catch (Exception exc)
         {
