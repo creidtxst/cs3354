@@ -10,6 +10,10 @@ public class AssignmentA04Test
     public static void main(String[] args)
     {
         AssignmentA04Test.test01();
+        AssignmentA04Test.test02();
+        AssignmentA04Test.test03();
+        AssignmentA04Test.test04();
+        AssignmentA04Test.test05();
     }
 
     private static void test01()
@@ -24,6 +28,82 @@ public class AssignmentA04Test
         try
         {
             validate("AssignmentA04Test.test01", inputArray, out, expectedOriginalIndexOut, expectedOut);
+        }
+        catch (Exception exc)
+        {
+            System.out.print("\n\n" + exc);
+        }
+    }
+
+    private static void test02()
+    {
+        int[] inputArray = {5, 4, 3, 2, 1};
+        int[] expectedOriginalIndexOut = {4, 3, 2, 1, 0};
+        int[] expectedOut = {1, 2, 3, 4, 5};
+
+        List<ArrayIndex> in = AssignmentA04.generateArrayIndexList(inputArray);
+        List<ArrayIndex> out = AssignmentA04.bubbleSort(in);
+
+        try
+        {
+            validate("AssignmentA04Test.test02", inputArray, out, expectedOriginalIndexOut, expectedOut);
+        }
+        catch (Exception exc)
+        {
+            System.out.print("\n\n" + exc);
+        }
+    }
+
+    private static void test03()
+    {
+        int[] inputArray = {99, 88, 77, 66, 55};
+        int[] expectedOriginalIndexOut = {4, 3, 2, 1, 0};
+        int[] expectedOut = {55, 66, 77, 88, 99};
+
+        List<ArrayIndex> in = AssignmentA04.generateArrayIndexList(inputArray);
+        List<ArrayIndex> out = AssignmentA04.bubbleSort(in);
+
+        try
+        {
+            validate("AssignmentA04Test.test03", inputArray, out, expectedOriginalIndexOut, expectedOut);
+        }
+        catch (Exception exc)
+        {
+            System.out.print("\n\n" + exc);
+        }
+    }
+
+    private static void test04()
+    {
+        int[] inputArray = {3, 1, 7, 5, 11};
+        int[] expectedOriginalIndexOut = {1, 0, 3, 2, 4};
+        int[] expectedOut = {1, 3, 5, 7, 11};
+
+        List<ArrayIndex> in = AssignmentA04.generateArrayIndexList(inputArray);
+        List<ArrayIndex> out = AssignmentA04.bubbleSort(in);
+
+        try
+        {
+            validate("AssignmentA04Test.test04", inputArray, out, expectedOriginalIndexOut, expectedOut);
+        }
+        catch (Exception exc)
+        {
+            System.out.print("\n\n" + exc);
+        }
+    }
+
+    private static void test05()
+    {
+        int[] inputArray = {9, 3, 27, 243, 81};
+        int[] expectedOriginalIndexOut = {1, 0, 2, 4, 3};
+        int[] expectedOut = {3, 9, 27, 81, 243};
+
+        List<ArrayIndex> in = AssignmentA04.generateArrayIndexList(inputArray);
+        List<ArrayIndex> out = AssignmentA04.bubbleSort(in);
+
+        try
+        {
+            validate("AssignmentA04Test.test05", inputArray, out, expectedOriginalIndexOut, expectedOut);
         }
         catch (Exception exc)
         {
