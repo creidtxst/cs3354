@@ -125,7 +125,7 @@ public class AssignmentA02Test
         {
             System.out.print("\n\n" + exc);
         }
-        System.out.println("Needle = " + needle + " and Ans: " + output);
-        System.out.println("Knuth-Morris-Pratt Search (in nanoseconds): " + diff + "\n");
+
+        System.out.print("Knuth-Morris-Pratt Search (in nanoseconds): " + diff + "\n");
     }
 }
