@@ -13,6 +13,10 @@ public class AssignmentA03Test
         AssignmentA03Test.pretestProduct01();
         AssignmentA03Test.pretestProduct02();
         AssignmentA03Test.test01();
+        AssignmentA03Test.test02();
+        AssignmentA03Test.test03();
+        AssignmentA03Test.test04();
+        AssignmentA03Test.test05();
     }
 
     /**
@@ -135,7 +139,63 @@ public class AssignmentA03Test
         Matrix sum = Matrix.computeSum(matrix1, matrix2);
         Matrix product = Matrix.computeProduct(matrix1, matrix2);
 
-        System.out.print("\nmatrix1:" + matrix1 + "\nmatrix2: " + matrix2 + "\nsum: " + sum.toString() + "\nproduct: " + product.toString());
+        System.out.print("AssignmentA03Test.test01" + "\n\nmatrix1:" + matrix1 + "\nmatrix2: " + matrix2 + "\nsum: " + sum.toString() + "\nproduct: " + product.toString() + "\n");
+    }
+
+    private static void test02()
+    {
+        String fileName1 = BASE_FILE_PATH + "/matrixInput02.txt";
+        String fileName2 = BASE_FILE_PATH + "/matrixInput03.txt";
+
+        Matrix matrix1 = AssignmentA03.generateRandomMatrixFromFileInput(fileName1);
+        Matrix matrix2 = AssignmentA03.generateRandomMatrixFromFileInput(fileName2);
+
+        Matrix sum = Matrix.computeSum(matrix1, matrix2);
+        Matrix product = Matrix.computeProduct(matrix1, matrix2);
+
+        System.out.print("AssignmentA03Test.test02" + "\n\nmatrix1:" + matrix1 + "\nmatrix2: " + matrix2 + "\nsum: " + sum.toString() + "\nproduct: " + product.toString() + "\n");
+    }
+
+    private static void test03()
+    {
+        String fileName1 = BASE_FILE_PATH + "/matrixInput03.txt";
+        String fileName2 = BASE_FILE_PATH + "/matrixInput04.txt";
+
+        Matrix matrix1 = AssignmentA03.generateRandomMatrixFromFileInput(fileName1);
+        Matrix matrix2 = AssignmentA03.generateRandomMatrixFromFileInput(fileName2);
+
+        Matrix sum = Matrix.computeSum(matrix1, matrix2);
+        Matrix product = Matrix.computeProduct(matrix1, matrix2);
+
+        System.out.print("AssignmentA03Test.test03" + "\n\nmatrix1:" + matrix1 + "\nmatrix2: " + matrix2 + "\nsum: " + sum.toString() + "\nproduct: " + product.toString() + "\n");
+    }
+
+    private static void test04()
+    {
+        String fileName1 = BASE_FILE_PATH + "/matrixInput02.txt";
+        String fileName2 = BASE_FILE_PATH + "/matrixInput04.txt";
+
+        Matrix matrix1 = AssignmentA03.generateRandomMatrixFromFileInput(fileName1);
+        Matrix matrix2 = AssignmentA03.generateRandomMatrixFromFileInput(fileName2);
+
+        Matrix sum = Matrix.computeSum(matrix1, matrix2);
+        Matrix product = Matrix.computeProduct(matrix1, matrix2);
+
+        System.out.print("AssignmentA03Test.test04" + "\n\nmatrix1:" + matrix1 + "\nmatrix2: " + matrix2 + "\nsum: " + sum.toString() + "\nproduct: " + product.toString() + "\n");
+    }
+
+    private static void test05()
+    {
+        String fileName1 = BASE_FILE_PATH + "/matrixInput05.txt";
+        String fileName2 = BASE_FILE_PATH + "/matrixInput06.txt";
+
+        Matrix matrix1 = AssignmentA03.generateRandomMatrixFromFileInput(fileName1);
+        Matrix matrix2 = AssignmentA03.generateRandomMatrixFromFileInput(fileName2);
+
+        Matrix sum = Matrix.computeSum(matrix1, matrix2);
+        Matrix product = Matrix.computeProduct(matrix1, matrix2);
+
+        System.out.print("AssignmentA03Test.test05" + "\n\nmatrix1:" + matrix1 + "\nmatrix2: " + matrix2 + "\nsum: " + sum.toString() + "\nproduct: " + product.toString() + "\n");
     }
 
     public static void validate(String name, Matrix in1, Matrix in2, Matrix out, Matrix expectedOut) throws Exception

@@ -26,7 +26,6 @@ public class FileUtil
 
             while ((line = bufferedReader.readLine()) != null)
             {
-                System.out.println(line);
                 stringList.add(line);
             }
 
