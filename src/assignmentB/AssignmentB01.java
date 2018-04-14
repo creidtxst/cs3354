@@ -11,18 +11,18 @@ public class AssignmentB01
     //
     // DEBUG FLAGS
     //
-    private static boolean PRINT_DEBUG_MESSAGES = false;
-    private static boolean PRINT_COMPLETION_STATS = false;
+    private static boolean PRINT_DEBUG_MESSAGES = true;
+    private static boolean PRINT_COMPLETION_STATS = true;
     private static boolean DEBUG_TIMING = true; // true: seconds, false: minutes
 
     // Constants
     private static String ARRIVAL_TIMER_NAME = "arrivalTimer";
-    private static long ARRIVAL_TIMER_PERIOD = 1 * 1000; // 1 sec
+    private static long ARRIVAL_TIMER_PERIOD = 500;// 1 * 1000; // 1 sec
 
     private static String CHECKER_A_TIMER_NAME = "checkerATimer";
     private static String CHECKER_B_TIMER_NAME = "checkerBTimer";
     private static String CHECKER_C_TIMER_NAME = "checkerCTimer";
-    private static long CHECKER_TIMER_PERIOD = 1 * 1000; // 1 sec
+    private static long CHECKER_TIMER_PERIOD = 500;// 1 * 1000; // 1 sec
     private static long DEFAULT_CHECKER_PEEK_TIME = 3 * 1000;
 
     private static long MIN_CHECK_TIME = DEBUG_TIMING ? 1 * 1000 : 1 * 1000 * 60;
@@ -37,6 +37,13 @@ public class AssignmentB01
     private static int capacityA = 0;
     private static int capacityB = 0;
     private static int capacityC = 0;
+    private static int numAExpeditions = 0;
+    private static int numBExpeditions = 0;
+    private static int numCExpeditions = 0;
+
+    private static int numAISE = 0; // num Checker A IllegalStateExceptions
+    private static int numBISE = 0; // num Checker B IllegalStateExceptions
+    private static int numCNSEE = 0; // num Checker C NoSuchElementExceptions
 
     private static long startTime = 0;
     private static long endTime = 0;
@@ -48,12 +55,12 @@ public class AssignmentB01
     private static long nextArrivalTime = 0;
     private static Timer arrivalTimer;
 
-    private static long checkerANextPeekTime;
-    private static long checkerANextProcessTime;
-    private static long checkerBNextPeekTime;
-    private static long checkerBNextProcessTime;
-    private static long checkerCNextPeekTime;
-    private static long checkerCNextProcessTime;
+    private static long checkerANextPeekTime = 0;
+    private static long checkerANextProcessTime = 0;
+    private static long checkerBNextPeekTime = 0;
+    private static long checkerBNextProcessTime = 0;
+    private static long checkerCNextPeekTime = 0;
+    private static long checkerCNextProcessTime = 0;
     private static Timer checkerATimer;
     private static Timer checkerBTimer;
     private static Timer checkerCTimer;
@@ -79,12 +86,29 @@ public class AssignmentB01
         private int queueAMaxSize;
         private int queueBMaxSize;
         private int queueCMaxSize;
+        private long checkerAPeekTime;
+        private long checkerBPeekTime;
+        private long checkerCPeekTime;
+
 
         public Policy(int queueAMaxSize, int queueBMaxSize, int queueCMaxSize)
         {
             this.queueAMaxSize = queueAMaxSize;
             this.queueBMaxSize = queueBMaxSize;
             this.queueCMaxSize = queueCMaxSize;
+            this.checkerAPeekTime = DEFAULT_CHECKER_PEEK_TIME;
+            this.checkerBPeekTime = DEFAULT_CHECKER_PEEK_TIME;
+            this.checkerCPeekTime = DEFAULT_CHECKER_PEEK_TIME;
+        }
+
+        public Policy(int queueAMaxSize, int queueBMaxSize, int queueCMaxSize, long checkerAPeekTime, long checkerBPeekTime, long checkerCPeekTime)
+        {
+            this.queueAMaxSize = queueAMaxSize;
+            this.queueBMaxSize = queueBMaxSize;
+            this.queueCMaxSize = queueCMaxSize;
+            this.checkerAPeekTime = checkerAPeekTime;
+            this.checkerBPeekTime = checkerBPeekTime;
+            this.checkerCPeekTime = checkerCPeekTime;
         }
 
         @Override
@@ -94,6 +118,9 @@ public class AssignmentB01
                     "queueAMaxSize=" + queueAMaxSize +
                     ", queueBMaxSize=" + queueBMaxSize +
                     ", queueCMaxSize=" + queueCMaxSize +
+                    ", checkerAPeekTime=" + checkerAPeekTime +
+                    ", checkerBPeekTime=" + checkerBPeekTime +
+                    ", checkerCPeekTime=" + checkerCPeekTime +
                     '}';
         }
     }
@@ -169,16 +196,8 @@ public class AssignmentB01
         {
             super();
 
-            if (PRINT_DEBUG_MESSAGES)
-            {
-                System.out.print("\n" + getCurRuntime() + " CheckerATask()");
-            }
-
             policy = p;
-
-            // todo pull this from CheckerPolicy
-            checkerANextPeekTime = System.currentTimeMillis() + DEFAULT_CHECKER_PEEK_TIME;
-
+            checkerANextPeekTime = System.currentTimeMillis() + (p.checkerAPeekTime * 1000);
             checkerANextProcessTime = genNextCheckerProcessTime();
         }
 
@@ -195,16 +214,20 @@ public class AssignmentB01
             {
                 if (PRINT_DEBUG_MESSAGES)
                 {
-                    System.out.print("\n" + getCurRuntime() + " CheckerATask.run() -- Peeking...");
+                    System.out.print("\n" + getCurRuntime() + " CheckerATask.run() -- Peeking A...");
                 }
 
+                // Seed next peek time
+                checkerANextPeekTime = System.currentTimeMillis() + (policy.checkerAPeekTime * 1000);
+
                 // Check Policy to determine if process time should be expedited
-                if (queueA.size() > policy.queueAMaxSize)
+                if (queueA.size() >= policy.queueAMaxSize)
                 {
                     System.out.print("\n" + getCurRuntime() + " CheckerATask.run() -- Expediting A...");
 
                     // Expedite
                     expedite = true;
+                    numAExpeditions++;
                 }
             }
 
@@ -213,7 +236,7 @@ public class AssignmentB01
             {
                 if (PRINT_DEBUG_MESSAGES)
                 {
-                    System.out.print("\n" + getCurRuntime() + " CheckerATask.run() -- Processing...");
+                    System.out.print("\n" + getCurRuntime() + " CheckerATask.run() -- Processing A...");
                 }
 
                 // Peek at Person in Queue A
@@ -249,6 +272,7 @@ public class AssignmentB01
                         }
                         // If Queue C became full while Checker A attempted to add a Person, then do nothing
                         errorOccurred = true;
+                        numAISE++;
                     }
                     finally
                     {
@@ -258,7 +282,7 @@ public class AssignmentB01
                             queueA.remove(person);
                             checkerANextProcessTime = genNextCheckerProcessTime();
                             checkerCNextProcessTime = genNextCheckerProcessTime();
-                            System.out.print("\n" + getCurRuntime() + " CheckerATask.run() -- Person " + person.getNumber() + " moved from A to C");
+                            System.out.print("\n" + getCurRuntime() + " CheckerATask.run() -- Person " + person.getNumber() + " moved from A to C -- size A: " + queueA.size() + " / " + capacityA + ", size C: " + queueC.size() + " / " + capacityC);
                         }
                     }
                 }
@@ -275,16 +299,8 @@ public class AssignmentB01
         {
             super();
 
-            if (PRINT_DEBUG_MESSAGES)
-            {
-                System.out.print("\n" + getCurRuntime() + " CheckerBTask()");
-            }
-
             policy = p;
-
-            // todo pull this from CheckerPolicy
-            checkerBNextPeekTime = System.currentTimeMillis() + DEFAULT_CHECKER_PEEK_TIME;
-
+            checkerBNextPeekTime = System.currentTimeMillis() + (p.checkerBPeekTime * 1000);
             checkerBNextProcessTime = genNextCheckerProcessTime();
         }
 
@@ -301,16 +317,20 @@ public class AssignmentB01
             {
                 if (PRINT_DEBUG_MESSAGES)
                 {
-                    System.out.print("\n" + getCurRuntime() + " CheckerBTask.run() -- Peeking...");
+                    System.out.print("\n" + getCurRuntime() + " CheckerBTask.run() -- Peeking B...");
                 }
 
+                // Seed next peek time
+                checkerBNextPeekTime = System.currentTimeMillis() + (policy.checkerBPeekTime * 1000);
+
                 // Check Policy to determine if process time should be expedited
-                if (queueB.size() > policy.queueBMaxSize)
+                if (queueB.size() >= policy.queueBMaxSize)
                 {
                     System.out.print("\n" + getCurRuntime() + " CheckerBTask.run() -- Expediting B...");
 
                     // Expedite
                     expedite = true;
+                    numBExpeditions++;
                 }
             }
 
@@ -319,7 +339,7 @@ public class AssignmentB01
             {
                 if (PRINT_DEBUG_MESSAGES)
                 {
-                    System.out.print("\n" + getCurRuntime() + " CheckerBTask.run() -- Processing...");
+                    System.out.print("\n" + getCurRuntime() + " CheckerBTask.run() -- Processing B...");
                 }
 
                 // Peek at Person in Queue B
@@ -355,6 +375,7 @@ public class AssignmentB01
                         }
                         // If Queue C became full while Checker B attempted to add a Person, then do nothing
                         errorOccurred = true;
+                        numBISE++;
                     }
                     finally
                     {
@@ -364,7 +385,7 @@ public class AssignmentB01
                             queueB.remove(person);
                             checkerBNextProcessTime = genNextCheckerProcessTime();
                             checkerCNextProcessTime = genNextCheckerProcessTime();
-                            System.out.print("\n" + getCurRuntime() + " CheckerBTask.run() -- Person " + person.getNumber() + " moved from B to C");
+                            System.out.print("\n" + getCurRuntime() + " CheckerBTask.run() -- Person " + person.getNumber() + " moved from B to C -- size B: " + queueB.size() + " / " + capacityB + ", size C: " + queueC.size() + " / " + capacityC);
                         }
                     }
                 }
@@ -381,15 +402,8 @@ public class AssignmentB01
         {
             super();
 
-            if (PRINT_DEBUG_MESSAGES)
-            {
-                System.out.print("\n" + getCurRuntime() + " CheckerCTask()");
-            }
-
             policy = p;
-
-            // todo pull this from CheckerPolicy
-            checkerCNextPeekTime = System.currentTimeMillis() + DEFAULT_CHECKER_PEEK_TIME;
+            checkerCNextPeekTime = System.currentTimeMillis() + (p.checkerCPeekTime * 1000);
         }
 
         @Override
@@ -405,16 +419,20 @@ public class AssignmentB01
             {
                 if (PRINT_DEBUG_MESSAGES)
                 {
-                    System.out.print("\n" + getCurRuntime() + " CheckerCTask.run() -- Peeking...");
+                    System.out.print("\n" + getCurRuntime() + " CheckerCTask.run() -- Peeking C...");
                 }
 
+                // Seed next peek time
+                checkerCNextPeekTime = System.currentTimeMillis() + (policy.checkerCPeekTime * 1000);
+
                 // Check Policy to determine if process time should be expedited
-                if (queueC.size() > policy.queueCMaxSize)
+                if (queueC.size() >= policy.queueCMaxSize)
                 {
                     System.out.print("\n" + getCurRuntime() + " CheckerCTask.run() -- Expediting C...");
 
                     // Expedite
                     expedite = true;
+                    numCExpeditions++;
                 }
             }
 
@@ -423,7 +441,7 @@ public class AssignmentB01
             {
                 if (PRINT_DEBUG_MESSAGES)
                 {
-                    System.out.print("\n" + getCurRuntime() + " CheckerCTask.run() -- Processing...");
+                    System.out.print("\n" + getCurRuntime() + " CheckerCTask.run() -- Processing C...");
                 }
 
                 // Remove Person from Queue C
@@ -442,6 +460,7 @@ public class AssignmentB01
                     }
                     // If Queue C is empty, then do nothing
                     errorOccurred = true;
+                    numCNSEE++;
                 }
                 finally
                 {
@@ -449,7 +468,7 @@ public class AssignmentB01
                     {
                         checkerCNextProcessTime = genNextCheckerProcessTime();
                         numProcessed++;
-                        System.out.print("\n" + getCurRuntime() + " CheckerCTask.run() -- Person " + p.getNumber() + " processed.");
+                        System.out.print("\n" + getCurRuntime() + " CheckerCTask.run() -- Person " + p.getNumber() + " processed. size C: " + queueC.size() + " / " + capacityC);
                     }
                 }
             }
@@ -486,7 +505,7 @@ public class AssignmentB01
         int q = ThreadLocalRandom.current().nextInt(1, 2 + 1);
         if (PRINT_DEBUG_MESSAGES)
         {
-            System.out.print("\n" + getCurRuntime() + " genQueueSelection(): " + q);
+//            System.out.print("\n" + getCurRuntime() + " genQueueSelection(): " + q);
         }
         return q;
     }
@@ -501,14 +520,16 @@ public class AssignmentB01
         switch (queueSelection)
         {
             case 1:
-                System.out.print("\n" + getCurRuntime() + " putPersonInQueue() -- Person " + person.getNumber() + " has arrived at A");
                 queueA.add(person);
+                System.out.print("\n" + getCurRuntime() + " putPersonInQueue() -- Person " + person.getNumber() + " has arrived at A -- size A: " + queueA.size() + " / " + capacityA);
                 nextArrivalTime = genNextArrivalTime();
+                checkerANextProcessTime = genNextCheckerProcessTime();
                 break;
             case 2:
-                System.out.print("\n" + getCurRuntime() + " putPersonInQueue() -- Person " + person.getNumber() + " has arrived at B");
                 queueB.add(person);
+                System.out.print("\n" + getCurRuntime() + " putPersonInQueue() -- Person " + person.getNumber() + " has arrived at B -- size B: " + queueB.size() + " / " + capacityB);
                 nextArrivalTime = genNextArrivalTime();
+                checkerBNextProcessTime = genNextCheckerProcessTime();
                 break;
             case 3:
                 queueC.add(person);
@@ -584,11 +605,21 @@ public class AssignmentB01
 
         if (PRINT_COMPLETION_STATS)
         {
-            System.out.print("\nnumArrived: " + numArrived);
-            System.out.print("\nnumProcessed: " + numProcessed);
-            System.out.print("\nqueueA.size(): " + queueA.size());
-            System.out.print("\nqueueB.size(): " + queueB.size());
-            System.out.print("\nqueueC.size(): " + queueC.size());
+            if (PRINT_DEBUG_MESSAGES)
+            {
+                System.out.print("\nnumArrived: " + numArrived);
+                System.out.print("\nnumProcessed: " + numProcessed);
+                System.out.print("\nqueueA.size(): " + queueA.size());
+                System.out.print("\nqueueB.size(): " + queueB.size());
+                System.out.print("\nqueueC.size(): " + queueC.size());
+            }
+
+            System.out.print("\nnumAExpeditions: " + numAExpeditions);
+            System.out.print("\nnumBExpeditions: " + numBExpeditions);
+            System.out.print("\nnumCExpeditions: " + numCExpeditions);
+            System.out.print("\nnumAISE: " + numAISE);
+            System.out.print("\nnumBISE: " + numBISE);
+            System.out.print("\nnumCNSEE: " + numCNSEE);
         }
     }
 
@@ -618,6 +649,10 @@ public class AssignmentB01
 
     public static void main(String[] args)
     {
-        AssignmentB01.run(5, 3, 2, 2, new Policy(3, 2, 1));
+//        AssignmentB01.run(50, 30, 20, 20, new Policy(20, 15, 15));
+//        AssignmentB01.run(50, 30, 20, 20, new Policy(20, 15, 15, 15, 15, 10));
+        // todo Refactor to use builder
+        AssignmentB01.run(50, 11, 39, 15, new Policy(10, 30, 15, 15, 15, 10));
+//        AssignmentB01.run(50, 11, 39, 15, new Policy(10, 30, 15, 30, 15, 60));
     }
 }
