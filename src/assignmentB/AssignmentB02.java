@@ -2,6 +2,7 @@ package assignmentB;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -20,6 +21,7 @@ public class AssignmentB02 extends JFrame
         this.setTitle("Appointment Calendar");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(640, 480);
+        this.setResizable(false);
         this.setVisible(true);
 
         //TODO: fix formatting... need fixed table that doesn't resize with window
@@ -29,24 +31,24 @@ public class AssignmentB02 extends JFrame
         label = new JLabel();
         label.setHorizontalAlignment(SwingConstants.CENTER);
 
-        JButton prevMonth = new JButton("Prev");
-        JButton nextMonth = new JButton("Next");
+        JButton prevMonthButton = new JButton("<<");
+        JButton nextMonthButton = new JButton(">>");
 
-        prevMonth.addActionListener(ae -> {
+        prevMonthButton.addActionListener(ae -> {
             cal.add(Calendar.MONTH, -1);
-            updateMonth();
+            updateCalendarState();
         });
 
-        nextMonth.addActionListener(ae -> {
+        nextMonthButton.addActionListener(ae -> {
             cal.add(Calendar.MONTH, +1);
-            updateMonth();
+            updateCalendarState();
         });
 
         JPanel panel = new JPanel();
         panel.setLayout(new FlowLayout());
-        panel.add(prevMonth, FlowLayout.LEFT);
+        panel.add(prevMonthButton, FlowLayout.LEFT);
         panel.add(label, BorderLayout.CENTER);
-        panel.add(nextMonth, FlowLayout.RIGHT);
+        panel.add(nextMonthButton, FlowLayout.RIGHT);
 
         String[] days = {"Sun","Mon","Tue","Wed","Thu","Fri","Sat"};
 
@@ -63,10 +65,11 @@ public class AssignmentB02 extends JFrame
         this.add(panel,BorderLayout.NORTH);
         this.add(pane,BorderLayout.CENTER);
 
-        this.updateMonth();
+
+        this.updateCalendarState();
     }
 
-    void updateMonth()
+    void updateCalendarState()
     {
         cal.set(Calendar.DAY_OF_MONTH, 1);
         String month = cal.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.US);
