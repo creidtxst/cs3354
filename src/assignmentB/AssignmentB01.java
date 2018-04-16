@@ -8,21 +8,20 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class AssignmentB01
 {
-    //
     // DEBUG FLAGS
-    //
-    private static boolean PRINT_DEBUG_MESSAGES = true;
+    private static boolean PRINT_DEBUG_MESSAGES = false;
     private static boolean PRINT_COMPLETION_STATS = true;
     private static boolean DEBUG_TIMING = true; // true: seconds, false: minutes
 
     // Constants
+    private static long ARRIVAL_TIMER_PERIOD = 50;   // milliseconds
+    private static long CHECKER_TIMER_PERIOD = 50;   // milliseconds
+
     private static String ARRIVAL_TIMER_NAME = "arrivalTimer";
-    private static long ARRIVAL_TIMER_PERIOD = 500;// 1 * 1000; // 1 sec
 
     private static String CHECKER_A_TIMER_NAME = "checkerATimer";
     private static String CHECKER_B_TIMER_NAME = "checkerBTimer";
     private static String CHECKER_C_TIMER_NAME = "checkerCTimer";
-    private static long CHECKER_TIMER_PERIOD = 500;// 1 * 1000; // 1 sec
     private static long DEFAULT_CHECKER_PEEK_TIME = 3 * 1000;
 
     private static long MIN_CHECK_TIME = DEBUG_TIMING ? 1 * 1000 : 1 * 1000 * 60;
@@ -65,30 +64,14 @@ public class AssignmentB01
     private static Timer checkerBTimer;
     private static Timer checkerCTimer;
 
-    // Person
-    private static class Person
-    {
-        private int number;
-
-        public Person(int n)
-        {
-            number = n;
-        }
-
-        public int getNumber()
-        {
-            return number;
-        }
-    }
-
     private static class Policy
     {
         private int queueAMaxSize;
         private int queueBMaxSize;
         private int queueCMaxSize;
-        private long checkerAPeekTime;
-        private long checkerBPeekTime;
-        private long checkerCPeekTime;
+        private long checkerAPeekInterval;
+        private long checkerBPeekInterval;
+        private long checkerCPeekInterval;
 
 
         public Policy(int queueAMaxSize, int queueBMaxSize, int queueCMaxSize)
@@ -96,19 +79,19 @@ public class AssignmentB01
             this.queueAMaxSize = queueAMaxSize;
             this.queueBMaxSize = queueBMaxSize;
             this.queueCMaxSize = queueCMaxSize;
-            this.checkerAPeekTime = DEFAULT_CHECKER_PEEK_TIME;
-            this.checkerBPeekTime = DEFAULT_CHECKER_PEEK_TIME;
-            this.checkerCPeekTime = DEFAULT_CHECKER_PEEK_TIME;
+            this.checkerAPeekInterval = DEFAULT_CHECKER_PEEK_TIME;
+            this.checkerBPeekInterval = DEFAULT_CHECKER_PEEK_TIME;
+            this.checkerCPeekInterval = DEFAULT_CHECKER_PEEK_TIME;
         }
 
-        public Policy(int queueAMaxSize, int queueBMaxSize, int queueCMaxSize, long checkerAPeekTime, long checkerBPeekTime, long checkerCPeekTime)
+        public Policy(int queueAMaxSize, int queueBMaxSize, int queueCMaxSize, long checkerAPeekInterval, long checkerBPeekInterval, long checkerCPeekInterval)
         {
             this.queueAMaxSize = queueAMaxSize;
             this.queueBMaxSize = queueBMaxSize;
             this.queueCMaxSize = queueCMaxSize;
-            this.checkerAPeekTime = checkerAPeekTime;
-            this.checkerBPeekTime = checkerBPeekTime;
-            this.checkerCPeekTime = checkerCPeekTime;
+            this.checkerAPeekInterval = checkerAPeekInterval;
+            this.checkerBPeekInterval = checkerBPeekInterval;
+            this.checkerCPeekInterval = checkerCPeekInterval;
         }
 
         @Override
@@ -118,9 +101,9 @@ public class AssignmentB01
                     "queueAMaxSize=" + queueAMaxSize +
                     ", queueBMaxSize=" + queueBMaxSize +
                     ", queueCMaxSize=" + queueCMaxSize +
-                    ", checkerAPeekTime=" + checkerAPeekTime +
-                    ", checkerBPeekTime=" + checkerBPeekTime +
-                    ", checkerCPeekTime=" + checkerCPeekTime +
+                    ", checkerAPeekInterval=" + checkerAPeekInterval +
+                    ", checkerBPeekInterval=" + checkerBPeekInterval +
+                    ", checkerCPeekInterval=" + checkerCPeekInterval +
                     '}';
         }
     }
@@ -131,10 +114,6 @@ public class AssignmentB01
         @Override
         public void run()
         {
-            if (PRINT_DEBUG_MESSAGES)
-            {
-//                System.out.print("\n" + getCurRuntime() + " ArrivalTask.run()");
-            }
             // Get current time
             long curTime = System.currentTimeMillis();
 
@@ -197,7 +176,7 @@ public class AssignmentB01
             super();
 
             policy = p;
-            checkerANextPeekTime = System.currentTimeMillis() + (p.checkerAPeekTime * 1000);
+            checkerANextPeekTime = System.currentTimeMillis() + (p.checkerAPeekInterval * 1000);
             checkerANextProcessTime = genNextCheckerProcessTime();
         }
 
@@ -218,7 +197,7 @@ public class AssignmentB01
                 }
 
                 // Seed next peek time
-                checkerANextPeekTime = System.currentTimeMillis() + (policy.checkerAPeekTime * 1000);
+                checkerANextPeekTime = System.currentTimeMillis() + (policy.checkerAPeekInterval * 1000);
 
                 // Check Policy to determine if process time should be expedited
                 if (queueA.size() >= policy.queueAMaxSize)
@@ -282,7 +261,7 @@ public class AssignmentB01
                             queueA.remove(person);
                             checkerANextProcessTime = genNextCheckerProcessTime();
                             checkerCNextProcessTime = genNextCheckerProcessTime();
-                            System.out.print("\n" + getCurRuntime() + " CheckerATask.run() -- Person " + person.getNumber() + " moved from A to C -- size A: " + queueA.size() + " / " + capacityA + ", size C: " + queueC.size() + " / " + capacityC);
+                            System.out.print("\n" + getCurRuntime() + " CheckerATask.run() -- Person " + person.getNumber() + " moved from A to C -- " + getAllQueueSizeInfo());
                         }
                     }
                 }
@@ -300,7 +279,7 @@ public class AssignmentB01
             super();
 
             policy = p;
-            checkerBNextPeekTime = System.currentTimeMillis() + (p.checkerBPeekTime * 1000);
+            checkerBNextPeekTime = System.currentTimeMillis() + (p.checkerBPeekInterval * 1000);
             checkerBNextProcessTime = genNextCheckerProcessTime();
         }
 
@@ -321,7 +300,7 @@ public class AssignmentB01
                 }
 
                 // Seed next peek time
-                checkerBNextPeekTime = System.currentTimeMillis() + (policy.checkerBPeekTime * 1000);
+                checkerBNextPeekTime = System.currentTimeMillis() + (policy.checkerBPeekInterval * 1000);
 
                 // Check Policy to determine if process time should be expedited
                 if (queueB.size() >= policy.queueBMaxSize)
@@ -385,7 +364,7 @@ public class AssignmentB01
                             queueB.remove(person);
                             checkerBNextProcessTime = genNextCheckerProcessTime();
                             checkerCNextProcessTime = genNextCheckerProcessTime();
-                            System.out.print("\n" + getCurRuntime() + " CheckerBTask.run() -- Person " + person.getNumber() + " moved from B to C -- size B: " + queueB.size() + " / " + capacityB + ", size C: " + queueC.size() + " / " + capacityC);
+                            System.out.print("\n" + getCurRuntime() + " CheckerBTask.run() -- Person " + person.getNumber() + " moved from B to C -- " + getAllQueueSizeInfo());
                         }
                     }
                 }
@@ -403,7 +382,7 @@ public class AssignmentB01
             super();
 
             policy = p;
-            checkerCNextPeekTime = System.currentTimeMillis() + (p.checkerCPeekTime * 1000);
+            checkerCNextPeekTime = System.currentTimeMillis() + (p.checkerCPeekInterval * 1000);
         }
 
         @Override
@@ -423,7 +402,7 @@ public class AssignmentB01
                 }
 
                 // Seed next peek time
-                checkerCNextPeekTime = System.currentTimeMillis() + (policy.checkerCPeekTime * 1000);
+                checkerCNextPeekTime = System.currentTimeMillis() + (policy.checkerCPeekInterval * 1000);
 
                 // Check Policy to determine if process time should be expedited
                 if (queueC.size() >= policy.queueCMaxSize)
@@ -468,7 +447,7 @@ public class AssignmentB01
                     {
                         checkerCNextProcessTime = genNextCheckerProcessTime();
                         numProcessed++;
-                        System.out.print("\n" + getCurRuntime() + " CheckerCTask.run() -- Person " + p.getNumber() + " processed. size C: " + queueC.size() + " / " + capacityC);
+                        System.out.print("\n" + getCurRuntime() + " CheckerCTask.run() -- Person " + p.getNumber() + " processed -- " + getAllQueueSizeInfo());
                     }
                 }
             }
@@ -521,13 +500,13 @@ public class AssignmentB01
         {
             case 1:
                 queueA.add(person);
-                System.out.print("\n" + getCurRuntime() + " putPersonInQueue() -- Person " + person.getNumber() + " has arrived at A -- size A: " + queueA.size() + " / " + capacityA);
+                System.out.print("\n" + getCurRuntime() + " putPersonInQueue() -- Person " + person.getNumber() + " has arrived at A -- " + getAllQueueSizeInfo());
                 nextArrivalTime = genNextArrivalTime();
                 checkerANextProcessTime = genNextCheckerProcessTime();
                 break;
             case 2:
                 queueB.add(person);
-                System.out.print("\n" + getCurRuntime() + " putPersonInQueue() -- Person " + person.getNumber() + " has arrived at B -- size B: " + queueB.size() + " / " + capacityB);
+                System.out.print("\n" + getCurRuntime() + " putPersonInQueue() -- Person " + person.getNumber() + " has arrived at B -- " + getAllQueueSizeInfo());
                 nextArrivalTime = genNextArrivalTime();
                 checkerBNextProcessTime = genNextCheckerProcessTime();
                 break;
@@ -633,6 +612,11 @@ public class AssignmentB01
         return System.currentTimeMillis() - startTime;
     }
 
+    private static String getAllQueueSizeInfo()
+    {
+        return "size A: " + queueA.size() + " / " + capacityA + ", size B: " + queueB.size() + " / " + capacityB + ", size C: " + queueC.size() + " / " + capacityC;
+    }
+
     public static void run(int pop, int capA, int capB, int capC, Policy policy)
     {
         System.out.print("\nrun() -- pop: " + pop + ", capA: " + capA + ", capB: " + capB + ", capC: " + capC + ", Policy: " + policy);
@@ -647,12 +631,21 @@ public class AssignmentB01
         init(policy);
     }
 
+    private static void test1()
+    {
+        Policy p = new Policy(30, 20, 20, 15, 15, 15);
+        AssignmentB01.run(50, 30, 20, 20, p);
+    }
+
+    private static void test2()
+    {
+        Policy p = new Policy(11, 39, 20, 15, 15, 15);
+        AssignmentB01.run(50, 11, 39, 20, p);
+    }
+
     public static void main(String[] args)
     {
-//        AssignmentB01.run(50, 30, 20, 20, new Policy(20, 15, 15));
-//        AssignmentB01.run(50, 30, 20, 20, new Policy(20, 15, 15, 15, 15, 10));
-        // todo Refactor to use builder
-        AssignmentB01.run(50, 11, 39, 15, new Policy(10, 30, 15, 15, 15, 10));
-//        AssignmentB01.run(50, 11, 39, 15, new Policy(10, 30, 15, 30, 15, 60));
+//        test1();
+        test2();
     }
 }
