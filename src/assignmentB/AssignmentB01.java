@@ -26,7 +26,7 @@ public class AssignmentB01
 
     private static long MIN_CHECK_TIME = DEBUG_TIMING ? 1 * 1000 : 1 * 1000 * 60;
     private static long MAX_CHECK_TIME = DEBUG_TIMING ? 15 * 1000 : 15 * 1000 * 60;
-    private static long MIN_ARRIVAL_TIME = 0; //DEBUG_TIMING ? 1 * 1000 : MIN_CHECK_TIME;
+    private static long MIN_ARRIVAL_TIME = 0;
     private static long MAX_ARRIVAL_TIME = DEBUG_TIMING ? 10 * 1000 : 10 * 1000 * 60;
 
     // Members
@@ -133,7 +133,6 @@ public class AssignmentB01
                     {
                         System.out.print("\n" + getCurRuntime() + " ArrivalTask.run() -- BOTH Queue A and B are full");
                     }
-                    // no op
                 }
                 else if (isQueueAFull)  // Put Person in Queue B
                 {
@@ -261,7 +260,7 @@ public class AssignmentB01
                             queueA.remove(person);
                             checkerANextProcessTime = genNextCheckerProcessTime();
                             checkerCNextProcessTime = genNextCheckerProcessTime();
-                            System.out.print("\n" + getCurRuntime() + " CheckerATask.run() -- Person " + person.getNumber() + " moved from A to C -- " + getAllQueueSizeInfo());
+                            System.out.print("\n" + getCurRuntime() + " CheckerATask.run() -- Person " + person.getNumber() + " moved from A to C -- " + getSimInfo());
                         }
                     }
                 }
@@ -364,7 +363,7 @@ public class AssignmentB01
                             queueB.remove(person);
                             checkerBNextProcessTime = genNextCheckerProcessTime();
                             checkerCNextProcessTime = genNextCheckerProcessTime();
-                            System.out.print("\n" + getCurRuntime() + " CheckerBTask.run() -- Person " + person.getNumber() + " moved from B to C -- " + getAllQueueSizeInfo());
+                            System.out.print("\n" + getCurRuntime() + " CheckerBTask.run() -- Person " + person.getNumber() + " moved from B to C -- " + getSimInfo());
                         }
                     }
                 }
@@ -425,8 +424,7 @@ public class AssignmentB01
 
                 // Remove Person from Queue C
                 boolean errorOccurred = false;
-                // todo fix this flow
-                Person p = new Person(-1);
+                Person p = new Person();
                 try
                 {
                     p = queueC.remove();
@@ -447,7 +445,7 @@ public class AssignmentB01
                     {
                         checkerCNextProcessTime = genNextCheckerProcessTime();
                         numProcessed++;
-                        System.out.print("\n" + getCurRuntime() + " CheckerCTask.run() -- Person " + p.getNumber() + " processed -- " + getAllQueueSizeInfo());
+                        System.out.print("\n" + getCurRuntime() + " CheckerCTask.run() -- Person " + p.getNumber() + " processed -- " + getSimInfo());
                     }
                 }
             }
@@ -481,12 +479,7 @@ public class AssignmentB01
      */
     private static int genQueueSelection()
     {
-        int q = ThreadLocalRandom.current().nextInt(1, 2 + 1);
-        if (PRINT_DEBUG_MESSAGES)
-        {
-//            System.out.print("\n" + getCurRuntime() + " genQueueSelection(): " + q);
-        }
-        return q;
+        return ThreadLocalRandom.current().nextInt(1, 2 + 1);
     }
 
     private static void putPersonInQueue(int queueSelection, Person person) throws IllegalStateException
@@ -500,13 +493,13 @@ public class AssignmentB01
         {
             case 1:
                 queueA.add(person);
-                System.out.print("\n" + getCurRuntime() + " putPersonInQueue() -- Person " + person.getNumber() + " has arrived at A -- " + getAllQueueSizeInfo());
+                System.out.print("\n" + getCurRuntime() + " putPersonInQueue() -- Person " + person.getNumber() + " has arrived at A -- " + getSimInfo());
                 nextArrivalTime = genNextArrivalTime();
                 checkerANextProcessTime = genNextCheckerProcessTime();
                 break;
             case 2:
                 queueB.add(person);
-                System.out.print("\n" + getCurRuntime() + " putPersonInQueue() -- Person " + person.getNumber() + " has arrived at B -- " + getAllQueueSizeInfo());
+                System.out.print("\n" + getCurRuntime() + " putPersonInQueue() -- Person " + person.getNumber() + " has arrived at B -- " + getSimInfo());
                 nextArrivalTime = genNextArrivalTime();
                 checkerBNextProcessTime = genNextCheckerProcessTime();
                 break;
@@ -612,9 +605,9 @@ public class AssignmentB01
         return System.currentTimeMillis() - startTime;
     }
 
-    private static String getAllQueueSizeInfo()
+    private static String getSimInfo()
     {
-        return "size A: " + queueA.size() + " / " + capacityA + ", size B: " + queueB.size() + " / " + capacityB + ", size C: " + queueC.size() + " / " + capacityC;
+        return "size A: " + queueA.size() + " / " + capacityA + ", size B: " + queueB.size() + " / " + capacityB + ", size C: " + queueC.size() + " / " + capacityC + ", Total Processed: " + numProcessed + " / " + population;
     }
 
     public static void run(int pop, int capA, int capB, int capC, Policy policy)
@@ -747,6 +740,6 @@ public class AssignmentB01
 
     public static void main(String[] args)
     {
-        test2();
+        test6();
     }
 }
