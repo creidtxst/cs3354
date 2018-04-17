@@ -633,19 +633,120 @@ public class AssignmentB01
 
     private static void test1()
     {
-        Policy p = new Policy(30, 20, 20, 15, 15, 15);
-        AssignmentB01.run(50, 30, 20, 20, p);
+        int pop = 50;
+        int capA = 30;
+        int capB = 20;
+        int capC = 20;
+
+        int queueAMaxSize = 30;
+        int queueBMaxSize = 20;
+        int queueCMaxSize = 20;
+        int checkerAPeekInterval = 15;
+        int checkerBPeekInterval = 15;
+        int checkerCPeekInterval = 15;
+
+        Policy p = new Policy(queueAMaxSize, queueBMaxSize, queueCMaxSize, checkerAPeekInterval, checkerBPeekInterval, checkerCPeekInterval);
+
+        AssignmentB01.run(pop, capA, capB, capC, p);
     }
 
     private static void test2()
     {
-        Policy p = new Policy(11, 39, 20, 15, 15, 15);
-        AssignmentB01.run(50, 11, 39, 20, p);
+        int pop = 50;
+        int capA = 30;
+        int capB = 20;
+        int capC = 20;
+
+        int queueAMaxSize = 15;
+        int queueBMaxSize = 10;
+        int queueCMaxSize = 10;
+        int checkerAPeekInterval = 30;
+        int checkerBPeekInterval = 30;
+        int checkerCPeekInterval = 30;
+
+        Policy p = new Policy(queueAMaxSize, queueBMaxSize, queueCMaxSize, checkerAPeekInterval, checkerBPeekInterval, checkerCPeekInterval);
+
+        AssignmentB01.run(pop, capA, capB, capC, p);
+    }
+
+    private static void test3()
+    {
+        int pop = 50;
+        int capA = 30;
+        int capB = 20;
+        int capC = 20;
+
+        int queueAMaxSize = 20;
+        int queueBMaxSize = 15;
+        int queueCMaxSize = 20;
+        int checkerAPeekInterval = 30;
+        int checkerBPeekInterval = 30;
+        int checkerCPeekInterval = 60;
+
+        Policy p = new Policy(queueAMaxSize, queueBMaxSize, queueCMaxSize, checkerAPeekInterval, checkerBPeekInterval, checkerCPeekInterval);
+
+        AssignmentB01.run(pop, capA, capB, capC, p);
+    }
+
+    private static void test4()
+    {
+        int pop = 50;
+        int capA = 11;
+        int capB = 39;
+        int capC = 20;
+
+        int queueAMaxSize = 11;
+        int queueBMaxSize = 39;
+        int queueCMaxSize = 20;
+        int checkerAPeekInterval = 15;
+        int checkerBPeekInterval = 15;
+        int checkerCPeekInterval = 15;
+
+        Policy p = new Policy(queueAMaxSize, queueBMaxSize, queueCMaxSize, checkerAPeekInterval, checkerBPeekInterval, checkerCPeekInterval);
+
+        AssignmentB01.run(pop, capA, capB, capC, p);
+    }
+
+    private static void test5()
+    {
+        int pop = 50;
+        int capA = 11;
+        int capB = 39;
+        int capC = 20;
+
+        int queueAMaxSize = 11;
+        int queueBMaxSize = 20;
+        int queueCMaxSize = 20;
+        int checkerAPeekInterval = 30;
+        int checkerBPeekInterval = 30;
+        int checkerCPeekInterval = 30;
+
+        Policy p = new Policy(queueAMaxSize, queueBMaxSize, queueCMaxSize, checkerAPeekInterval, checkerBPeekInterval, checkerCPeekInterval);
+
+        AssignmentB01.run(pop, capA, capB, capC, p);
+    }
+
+    private static void test6()
+    {
+        int pop = 50;
+        int capA = 11;
+        int capB = 39;
+        int capC = 20;
+
+        int queueAMaxSize = 10;
+        int queueBMaxSize = 30;
+        int queueCMaxSize = 20;
+        int checkerAPeekInterval = 30;
+        int checkerBPeekInterval = 30;
+        int checkerCPeekInterval = 60;
+
+        Policy p = new Policy(queueAMaxSize, queueBMaxSize, queueCMaxSize, checkerAPeekInterval, checkerBPeekInterval, checkerCPeekInterval);
+
+        AssignmentB01.run(pop, capA, capB, capC, p);
     }
 
     public static void main(String[] args)
     {
-//        test1();
         test2();
     }
 }
