@@ -3,6 +3,7 @@ package assignmentB;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumnModel;
 import java.awt.*;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -21,11 +22,11 @@ public class AssignmentB02 extends JFrame
         this.setTitle("Appointment Calendar");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(640, 480);
-        this.setResizable(false);
+        //this.setResizable(false);
         this.setVisible(true);
 
         //TODO: fix formatting... need fixed table that doesn't resize with window
-        // BoarderLayout() ??
+        //this.BoarderLayout() ??
         this.setLayout(new FlowLayout());
 
         label = new JLabel();
@@ -62,6 +63,14 @@ public class AssignmentB02 extends JFrame
 
         JTable table = new JTable(model);
         JScrollPane pane = new JScrollPane(table);
+        table.setCellSelectionEnabled(true);
+        table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        table.setRowHeight(20);
+        TableColumnModel columnModel = table.getColumnModel();
+
+        for (int i = 0; i < 7; i++)                                 // Sets calendar columns to a fixed width (40)
+            columnModel.getColumn(i).setPreferredWidth(40);
+
         this.add(panel,BorderLayout.NORTH);
         this.add(pane,BorderLayout.CENTER);
 
