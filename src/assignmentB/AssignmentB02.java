@@ -35,18 +35,40 @@ public class AssignmentB02
 
     //TODO: add text box to add/view appointments
 
+    private static JFrame createParentFrame()
+    {
+        JFrame f = new JFrame();
+        f.setTitle(FRAME_HEADER_TEXT);
+        f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        f.setSize(DEFAULT_FRAME_DIMENSION);
+        f.setMinimumSize(MIN_FRAME_DIMENSION);
+        f.setLayout(new FlowLayout());
+        return f;
+    }
+
+    private static JTextField createFrameHeaderTextField()
+    {
+        JTextField t = new JTextField(FRAME_HEADER_TEXT);
+        t.setAlignmentX(Component.CENTER_ALIGNMENT); // Component alignment
+        t.setHorizontalAlignment(JTextField.CENTER); // Text alignment
+        t.setEditable(false);
+        t.setFont(new Font(null, Font.BOLD, 30));
+        t.setBackground(new Color(0, 0, 0, 0));  // Transparent background
+        t.setBorder(null);   // No border
+        return t;
+    }
+
     private static void init()
     {
         // Create parent frame
-        parentFrame = new JFrame();
+        parentFrame = createParentFrame();
 
-        parentFrame.setTitle(FRAME_HEADER_TEXT);
-        parentFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        parentFrame.setSize(DEFAULT_FRAME_DIMENSION);
-        parentFrame.setMinimumSize(MIN_FRAME_DIMENSION);
+        // Create parent container
+        JPanel container = new JPanel();
+        container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
 
-        //TODO: fix formatting... need fixed table that doesn't resize with window
-        parentFrame.setLayout(new FlowLayout());
+        // Create frame header
+        JTextField frameHeaderTextField = createFrameHeaderTextField();
 
         // Create table frame
         JPanel tablePanel = new JPanel();
@@ -120,9 +142,11 @@ public class AssignmentB02
         scrollPane.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         // Put it all together...
+        container.add(frameHeaderTextField);
         tablePanel.add(tableHeaderPanel);
         tablePanel.add(scrollPane);
-        parentFrame.add(tablePanel, FlowLayout.LEFT);
+        container.add(tablePanel);
+        parentFrame.add(container);
 
         // Init table state
         updateCalendarState();
@@ -151,9 +175,12 @@ public class AssignmentB02
         int weeks = cal.getActualMaximum(Calendar.WEEK_OF_MONTH);
 
         isProgrammaticallySelected = true;
+        // Note: this invokes selection listener handler
         tableModel.setRowCount(0);
+        // todo figure out why this has to be called twice
         tableModel.setRowCount(weeks);
 
+        // todo disable selection on blank cells in table
         int i = (firstDay - 1);
         for (int day = 1; day <= totalDays; day++)
         {
