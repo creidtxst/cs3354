@@ -15,6 +15,9 @@ import java.util.Locale;
 public class AssignmentB02
 {
     // Constants
+    private static final String BASE_FILE_PATH = System.getProperty("user.dir") + "/src/assignmentB";
+    private static final String APPOINTMENT_NOTES_FILE_PATH = BASE_FILE_PATH + "/appointment-notes.json";
+
     private static final String[] DAYS = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
     private static final String FRAME_HEADER_TEXT = "Appointment Calendar";
     private static final Dimension DEFAULT_FRAME_DIMENSION = new Dimension(700, 480);
@@ -31,6 +34,7 @@ public class AssignmentB02
     private static JTable table;
     private static int selectedDay;
     private static boolean isProgrammaticallySelected = false;
+    private static JTextArea appointmentTextArea;
 
     // Handler
     private static SharedListSelectionHandler sharedListSelectionHandler;
@@ -212,6 +216,30 @@ public class AssignmentB02
         tableHeaderLabel.setText(t);
     }
 
+    private static void updateAppointmentTextArea()
+    {
+        appointmentTextArea.setText(getAppointmentNotesForSelectedDay());
+    }
+
+    private static String getAppointmentNotesForSelectedDay()
+    {
+        String month = cal.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.US);
+        int year = cal.get(Calendar.YEAR);
+        String k = selectedDay + "" + month + "" + year;
+        return JsonUtil.getValueForKeyFromFile(k, APPOINTMENT_NOTES_FILE_PATH);
+    }
+
+    private static void setAppointmentNotesForSelectedDay()
+    {
+        String month = cal.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.US);
+        int year = cal.get(Calendar.YEAR);
+        String k = selectedDay + "" + month + "" + year;
+
+        System.out.print("\n" + k);
+
+        JsonUtil.setValueForKeyInFile(k, appointmentTextArea.getText(), APPOINTMENT_NOTES_FILE_PATH);
+    }
+
     private static class SharedListSelectionHandler implements ListSelectionListener
     {
         @Override
@@ -245,6 +273,7 @@ public class AssignmentB02
             }
 
             updateTableHeaderText();
+            updateAppointmentTextArea();
         }
     }
 
@@ -257,9 +286,12 @@ public class AssignmentB02
             {
                 case "ok":
                     System.out.print("\nok pressed");
+                    setAppointmentNotesForSelectedDay();
                     break;
                 case "cancel":
                     System.out.print("\ncancel pressed");
+                    // Clear appointment text area
+                    appointmentTextArea.setText("");
                     break;
                 default:
                     break;
@@ -287,9 +319,12 @@ public class AssignmentB02
         JPanel tablePanel = createAndInitTablePanel();
 
         // Create appointment text area
-        JTextArea appointmentTextArea = new JTextArea("test");
+        appointmentTextArea = new JTextArea();
         appointmentTextArea.setBorder(new BorderUIResource.LineBorderUIResource(Color.BLACK));
+        appointmentTextArea.setSize(APPOINTMENT_LABEL_DIMENSION);
+        appointmentTextArea.setMinimumSize(APPOINTMENT_LABEL_DIMENSION);
         appointmentTextArea.setMaximumSize(APPOINTMENT_LABEL_DIMENSION);
+        appointmentTextArea.setPreferredSize(APPOINTMENT_LABEL_DIMENSION);
 
         // Create appointment buttons container
         JPanel appointmentButtonsPanel = new JPanel();
@@ -303,7 +338,7 @@ public class AssignmentB02
         // Attach OK and Cancel buttons to container
         appointmentButtonsPanel.add(okButton);
         appointmentButtonsPanel.add(cancelButton);
-        appointmentButtonsPanel.add(Box.createRigidArea(new Dimension(30, 0))); // Filler
+        appointmentButtonsPanel.add(Box.createRigidArea(new Dimension(70, 0))); // Filler
 
         // Put it all together...
         rootPanel.add(Box.createRigidArea(new Dimension(0, 40)));   // Filler
@@ -323,6 +358,9 @@ public class AssignmentB02
 
         // Programmatically select current day in table
         selectDayInTable(Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+
+        // Init appointment text area
+        updateAppointmentTextArea();
 
         // Parent frame is ready to be displayed...
         parentFrame.pack();
