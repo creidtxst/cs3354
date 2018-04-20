@@ -90,7 +90,7 @@ public class AssignmentB02
         return b;
     }
 
-    private static JPanel createAndInitTablePanel()
+    private static JPanel createTablePanel()
     {
         // Create table frame
         JPanel tablePanel = new JPanel();
@@ -195,7 +195,7 @@ public class AssignmentB02
         middlePanel.setLayout(new BoxLayout(middlePanel, BoxLayout.LINE_AXIS));
 
         // Create table container
-        JPanel tablePanel = createAndInitTablePanel();
+        JPanel tablePanel = createTablePanel();
 
         // Create appointment text area
         appointmentTextArea = createAppointmentTextArea();
