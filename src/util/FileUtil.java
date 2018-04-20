@@ -53,13 +53,14 @@ public class FileUtil
     {
         try
         {
-            // todo refactor to avoid clearing and instead simply append or overwrite existing text in file
             // Clear file
             new PrintWriter(filePath).close();
 
+            // Create new file writer
             FileWriter fileWriter = new FileWriter(filePath);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
 
+            // Write to file, one line at a time...
             for (String line : lineList)
             {
                 bufferedWriter.write(line + NEWLINE);

@@ -118,7 +118,6 @@ public class JsonUtil
                     // If we found it, then overwrite
                     if (k.equalsIgnoreCase(key))
                     {
-                        System.out.print("\nFound key: " + key);
                         keyExists = true;
                         break;
                     }
@@ -159,7 +158,7 @@ public class JsonUtil
 
         DateFormat format = new SimpleDateFormat("ddMMMyyyy", Locale.ENGLISH);
 
-        // Sort new list
+        // Sort new list by date
         Collections.sort(newList, new Comparator<String>()
         {
             @Override
@@ -167,6 +166,7 @@ public class JsonUtil
             {
                 Date d1 = null;
                 Date d2 = null;
+
                 try
                 {
                     String k1 = getKeyFromLine(o1);
@@ -176,7 +176,12 @@ public class JsonUtil
                 }
                 catch (Exception exc)
                 {
-                    System.out.print(exc.getMessage());
+                    // ignore
+                }
+
+                if (d1 == null || d2 == null)
+                {
+                    return 0;
                 }
 
                 return d1.compareTo(d2);

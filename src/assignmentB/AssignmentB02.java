@@ -28,7 +28,6 @@ public class AssignmentB02
     private static final Dimension APPOINTMENT_LABEL_DIMENSION = new Dimension(300, 300);
 
     // Static fields
-    private static JFrame parentFrame;
     private static Calendar cal = new GregorianCalendar();
     private static DefaultTableModel tableModel;
     private static JLabel tableHeaderLabel;
@@ -36,9 +35,6 @@ public class AssignmentB02
     private static int selectedDay;
     private static boolean isProgrammaticallySelected = false;
     private static JTextArea appointmentTextArea;
-
-    // Handler
-    private static SharedListSelectionHandler sharedListSelectionHandler;
 
     private static JFrame createParentFrame()
     {
@@ -98,7 +94,10 @@ public class AssignmentB02
     {
         // Create table frame
         JPanel tablePanel = new JPanel();
+        tablePanel.setSize(TABLE_DIMENSION);
+        tablePanel.setMinimumSize(TABLE_DIMENSION);
         tablePanel.setMaximumSize(TABLE_DIMENSION);
+        tablePanel.setPreferredSize(TABLE_DIMENSION);
         tablePanel.setLayout(new BoxLayout(tablePanel, BoxLayout.Y_AXIS));
 
         // Create prev and next month buttons
@@ -140,7 +139,7 @@ public class AssignmentB02
         table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 
         // Set up table model listener
-        sharedListSelectionHandler = new SharedListSelectionHandler();
+        SharedListSelectionHandler sharedListSelectionHandler = new SharedListSelectionHandler();
         ListSelectionModel rowSelMod = table.getSelectionModel();
         ListSelectionModel colSelMod = table.getColumnModel().getSelectionModel();
         rowSelMod.addListSelectionListener(sharedListSelectionHandler);
@@ -152,7 +151,7 @@ public class AssignmentB02
 
         // Assemble table container
         tablePanel.add(tableHeaderPanel);
-        tablePanel.add(Box.createRigidArea(new Dimension(0, 10)));
+        tablePanel.add(Box.createRigidArea(new Dimension(0, 10)));  // Filler
         tablePanel.add(scrollPane);
 
         return tablePanel;
@@ -166,6 +165,82 @@ public class AssignmentB02
         b.addActionListener(new AppointmentButtonActionListener());
         b.setActionCommand(actionCommand);
         return b;
+    }
+
+    private static JTextArea createAppointmentTextArea()
+    {
+        JTextArea t = new JTextArea();
+        t.setBorder(new BorderUIResource.LineBorderUIResource(Color.BLACK));
+        t.setSize(APPOINTMENT_LABEL_DIMENSION);
+        t.setMinimumSize(APPOINTMENT_LABEL_DIMENSION);
+        t.setMaximumSize(APPOINTMENT_LABEL_DIMENSION);
+        t.setPreferredSize(APPOINTMENT_LABEL_DIMENSION);
+        return t;
+    }
+
+    private static void createAndShowGUI()
+    {
+        // Create parent frame
+        JFrame parentFrame = createParentFrame();
+
+        // Create parent container
+        JPanel rootPanel = new JPanel();
+        rootPanel.setLayout(new BoxLayout(rootPanel, BoxLayout.Y_AXIS));
+
+        // Create frame header
+        JLabel frameHeaderLabel = createFrameHeaderLabel();
+
+        // Create container to hold table and appointment text area
+        JPanel middlePanel = new JPanel();
+        middlePanel.setLayout(new BoxLayout(middlePanel, BoxLayout.LINE_AXIS));
+
+        // Create table container
+        JPanel tablePanel = createAndInitTablePanel();
+
+        // Create appointment text area
+        appointmentTextArea = createAppointmentTextArea();
+
+        // Create appointment buttons container
+        JPanel appointmentButtonsPanel = new JPanel();
+        appointmentButtonsPanel.setLayout(new BoxLayout(appointmentButtonsPanel, BoxLayout.LINE_AXIS));
+        appointmentButtonsPanel.add(Box.createHorizontalGlue());    // Pin buttons to right edge
+
+        // Create OK and Cancel buttons
+        JButton okButton = createAppointmentButton("OK", "ok");
+        JButton cancelButton = createAppointmentButton("Cancel", "cancel");
+
+        // Attach OK and Cancel buttons to container
+        appointmentButtonsPanel.add(okButton);
+        appointmentButtonsPanel.add(cancelButton);
+        appointmentButtonsPanel.add(Box.createRigidArea(new Dimension(30, 0))); // Filler
+
+        // Put it all together...
+        rootPanel.add(Box.createRigidArea(new Dimension(0, 40)));   // Filler
+        rootPanel.add(frameHeaderLabel);
+        rootPanel.add(Box.createRigidArea(new Dimension(0, 40)));   // Filler
+        middlePanel.add(tablePanel);
+        middlePanel.add(Box.createRigidArea(new Dimension(40, 0))); // Filler
+        middlePanel.add(appointmentTextArea);
+        rootPanel.add(middlePanel);
+        rootPanel.add(Box.createRigidArea(new Dimension(0, 20)));   // Filler
+        rootPanel.add(appointmentButtonsPanel);
+        rootPanel.add(Box.createRigidArea(new Dimension(0, 40)));   // Filler
+
+        // Add root panel to parent frame
+        parentFrame.add(rootPanel);
+
+        // Init table state
+        updateCalendarState();
+
+        // Programmatically select current day in table
+        selectDayInTable(Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+
+        // Init appointment text area
+        updateAppointmentTextArea();
+
+        // Parent frame is ready to be displayed...
+        parentFrame.pack();
+        parentFrame.setVisible(true);
     }
 
     private static void updateAfterNextPrevButtonPress()
@@ -186,10 +261,8 @@ public class AssignmentB02
         isProgrammaticallySelected = true;
         // Note: this invokes selection listener handler
         tableModel.setRowCount(0);
-        // todo figure out why this has to be called twice
         tableModel.setRowCount(numWeeks);
 
-        // todo disable selection on blank cells in table
         int i = (firstDay - 1);
         for (int day = 1; day <= totalDays; day++)
         {
@@ -236,8 +309,6 @@ public class AssignmentB02
         int year = cal.get(Calendar.YEAR);
         String k = selectedDay + "" + month + "" + year;
 
-        System.out.print("\n" + k);
-
         // Replace system newline with unicode newline character to prepare for JSON encoding
         String s = appointmentTextArea.getText().replace(FileUtil.NEWLINE, "\\n");
 
@@ -267,13 +338,12 @@ public class AssignmentB02
             }
             catch (ArrayIndexOutOfBoundsException exc)
             {
-                System.out.print("\n" + exc.toString());
                 selectedDay = 1;
                 selectDayInTable(selectedDay);
             }
             catch (NullPointerException npe)
             {
-                System.out.print("\n" + npe.toString());
+                // ignore
             }
 
             updateTableHeaderText();
@@ -289,11 +359,9 @@ public class AssignmentB02
             switch (e.getActionCommand())
             {
                 case "ok":
-                    System.out.print("\nok pressed");
                     setAppointmentNotesForSelectedDay();
                     break;
                 case "cancel":
-                    System.out.print("\ncancel pressed");
                     // Clear appointment text area
                     appointmentTextArea.setText("");
                     break;
@@ -301,74 +369,6 @@ public class AssignmentB02
                     break;
             }
         }
-    }
-
-    private static void createAndShowGUI()
-    {
-        // Create parent frame
-        parentFrame = createParentFrame();
-
-        // Create parent container
-        JPanel rootPanel = new JPanel();
-        rootPanel.setLayout(new BoxLayout(rootPanel, BoxLayout.Y_AXIS));
-
-        // Create frame header
-        JLabel frameHeaderLabel = createFrameHeaderLabel();
-
-        // Create container to hold table and appointment text area
-        JPanel middlePanel = new JPanel();
-        middlePanel.setLayout(new BoxLayout(middlePanel, BoxLayout.LINE_AXIS));
-
-        // Create table container
-        JPanel tablePanel = createAndInitTablePanel();
-
-        // Create appointment text area
-        appointmentTextArea = new JTextArea();
-        appointmentTextArea.setBorder(new BorderUIResource.LineBorderUIResource(Color.BLACK));
-        appointmentTextArea.setSize(APPOINTMENT_LABEL_DIMENSION);
-        appointmentTextArea.setMinimumSize(APPOINTMENT_LABEL_DIMENSION);
-        appointmentTextArea.setMaximumSize(APPOINTMENT_LABEL_DIMENSION);
-        appointmentTextArea.setPreferredSize(APPOINTMENT_LABEL_DIMENSION);
-
-        // Create appointment buttons container
-        JPanel appointmentButtonsPanel = new JPanel();
-        appointmentButtonsPanel.setLayout(new BoxLayout(appointmentButtonsPanel, BoxLayout.LINE_AXIS));
-        appointmentButtonsPanel.add(Box.createHorizontalGlue());
-
-        // Create OK and Cancel buttons
-        JButton okButton = createAppointmentButton("OK", "ok");
-        JButton cancelButton = createAppointmentButton("Cancel", "cancel");
-
-        // Attach OK and Cancel buttons to container
-        appointmentButtonsPanel.add(okButton);
-        appointmentButtonsPanel.add(cancelButton);
-        appointmentButtonsPanel.add(Box.createRigidArea(new Dimension(70, 0))); // Filler
-
-        // Put it all together...
-        rootPanel.add(Box.createRigidArea(new Dimension(0, 40)));   // Filler
-        rootPanel.add(frameHeaderLabel);
-        rootPanel.add(Box.createRigidArea(new Dimension(0, 40)));   // Filler
-        middlePanel.add(tablePanel);
-        middlePanel.add(Box.createRigidArea(new Dimension(40, 0))); // Filler
-        middlePanel.add(appointmentTextArea);
-        rootPanel.add(middlePanel);
-        rootPanel.add(Box.createRigidArea(new Dimension(0, 20)));   // Filler
-        rootPanel.add(appointmentButtonsPanel);
-
-        parentFrame.add(rootPanel);
-
-        // Init table state
-        updateCalendarState();
-
-        // Programmatically select current day in table
-        selectDayInTable(Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
-
-        // Init appointment text area
-        updateAppointmentTextArea();
-
-        // Parent frame is ready to be displayed...
-        parentFrame.pack();
-        parentFrame.setVisible(true);
     }
 
     public static void main(String args[])
