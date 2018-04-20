@@ -1,5 +1,6 @@
 package assignmentB;
 
+import util.FileUtil;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -223,21 +224,24 @@ public class AssignmentB02
 
     private static String getAppointmentNotesForSelectedDay()
     {
-        String month = cal.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.US);
+        String month = cal.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.US);
         int year = cal.get(Calendar.YEAR);
         String k = selectedDay + "" + month + "" + year;
-        return JsonUtil.getValueForKeyFromFile(k, APPOINTMENT_NOTES_FILE_PATH);
+        return JsonUtil.getValueForKeyFromFile(k, APPOINTMENT_NOTES_FILE_PATH).replace("\\n", FileUtil.NEWLINE);
     }
 
     private static void setAppointmentNotesForSelectedDay()
     {
-        String month = cal.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.US);
+        String month = cal.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.US);
         int year = cal.get(Calendar.YEAR);
         String k = selectedDay + "" + month + "" + year;
 
         System.out.print("\n" + k);
 
-        JsonUtil.setValueForKeyInFile(k, appointmentTextArea.getText(), APPOINTMENT_NOTES_FILE_PATH);
+        // Replace system newline with unicode newline character to prepare for JSON encoding
+        String s = appointmentTextArea.getText().replace(FileUtil.NEWLINE, "\\n");
+
+        JsonUtil.setValueForKeyInFile(k, s, APPOINTMENT_NOTES_FILE_PATH);
     }
 
     private static class SharedListSelectionHandler implements ListSelectionListener
